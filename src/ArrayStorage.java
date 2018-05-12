@@ -9,29 +9,26 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        this.storage = new Resume[10000];
+        storage = new Resume[10000];
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++){
-            if (storage[i] != null ){
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
                 continue;
+            } else {
+                storage[i] = r;
+                break;
             }
-            storage[i] = r;
-            break;
         }
     }
 
     Resume get(String uuid) {
-        try {
-          for (int i = 0; i < storage.length; i++){
-              if (uuid == storage[i].uuid){
-                  return storage[i];
-              }
-          }
-
-        } catch(NullPointerException ex) {
-            return null;
+        String searchKey = uuid;
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null && storage[i].uuid == searchKey) {
+                return storage[i];
+            }
         }
         return null;
     }
@@ -39,52 +36,38 @@ public class ArrayStorage {
     void delete(String uuid) {
         String searchKey = uuid;
         int i = 0;
-        int index = 0;
         int count = storage.length;
-        try {
-            for (i = 0; i < count; i++) {
-                if (storage[i].uuid == searchKey) {
-                    index = Arrays.asList(storage).indexOf(storage[i]);
-                    break;
-                }
-            }
-            for (int k = i; k < count - 1; k++)
-                storage[k] = storage[k + 1];
-            count--;
-        } catch (Exception ex){
 
+        for (i = 0; i < count; i++) {
+            if (storage[i].uuid == searchKey) {
+                break;
+            }
         }
-        System.out.println(index);
+        for (int k = i; k < count - 1; k++)
+            storage[k] = storage[k + 1];
+        count--;
+
     }
 
     Resume[] getAll() {
-        int count = 0;
-        for (int i = 0; i < storage.length; i++) {
+        Resume[] resume = new Resume[size()];
+        for (int i = 0; i < size(); i++) {
             if (storage[i] != null) {
-                count += 1;
-            }
-        }
-        Resume[] resume = new Resume[count];
-        for (int i = 0; i < storage.length; i++){
-            if (storage[i] != null){
                 resume[i] = storage[i];
-            }
-            else break;
+            } else break;
         }
         return resume;
     }
 
     int size() {
         int count = 0;
-        try{
-            for (int i = 0; i < storage.length; i++) {
-                if (storage[i] != null) {
-                    count += 1;
-                }
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i] != null) {
+                count += 1;
+            } else {
+                break;
             }
-            return count;
-        } catch (NullPointerException ex) {
-            return 0;
         }
+        return count;
     }
 }
