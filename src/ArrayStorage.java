@@ -7,6 +7,8 @@ import java.util.Arrays;
 public class ArrayStorage {
 
     Resume[] storage = new Resume[10000];
+    int size;
+
 
     void clear() {
         storage = new Resume[10000];
@@ -24,9 +26,10 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
+        size = size();
         String searchKey = uuid;
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null && storage[i].uuid == searchKey) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].uuid == searchKey) {
                 return storage[i];
             }
         }
@@ -50,11 +53,10 @@ public class ArrayStorage {
     }
 
     Resume[] getAll() {
-        Resume[] resume = new Resume[size()];
+        size = size();
+        Resume[] resume = new Resume[size];
         for (int i = 0; i < size(); i++) {
-            if (storage[i] != null) {
-                resume[i] = storage[i];
-            } else break;
+            resume[i] = storage[i];
         }
         return resume;
     }
