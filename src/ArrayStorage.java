@@ -55,7 +55,7 @@ public class ArrayStorage {
     Resume[] getAll() {
         size = size();
         Resume[] resume = new Resume[size];
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < size; i++) {
             resume[i] = storage[i];
         }
         return resume;
