@@ -16,13 +16,10 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = 0; i < storage.length; i++) {
-            if (storage[i] != null) {
-            } else {
+        for (int i = size; size < storage.length; i++) {
                 storage[i] = r;
                 size++;
                 break;
-            }
         }
     }
 
