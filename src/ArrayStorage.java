@@ -20,7 +20,7 @@ public class ArrayStorage {
             if (storage[i] != null) {
             } else {
                 storage[i] = r;
-                size += 1;
+                size++;
                 break;
             }
         }
@@ -43,13 +43,13 @@ public class ArrayStorage {
             }
         }
         System.arraycopy(storage, i + 1, storage, i, storage.length - 1 - i);
-        size -= 1;
+        size--;
     }
 
     Resume[] getAll() {
-        Resume[] resume = new Resume[size];
-        System.arraycopy(storage, 0, resume, 0, size);
-        return resume;
+        Resume[] storage1 = new Resume[size];
+        System.arraycopy(storage, 0, storage1, 0, size);
+        return storage1;
     }
 
     int size() {
