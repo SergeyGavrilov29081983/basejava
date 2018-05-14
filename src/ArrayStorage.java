@@ -39,7 +39,7 @@ public class ArrayStorage {
                 break;
             }
         }
-        System.arraycopy(storage, i + 1, storage, i, storage.length - 1 - i);
+        System.arraycopy(storage, i + 1, storage, i, size);
         size--;
     }
 
