@@ -13,8 +13,10 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        storage[size] = r;
-        size++;
+        if(size < storage.length) {
+            storage[size] = r;
+            size++;
+        }
     }
 
 
