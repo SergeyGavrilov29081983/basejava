@@ -1,6 +1,3 @@
-
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
@@ -16,12 +13,10 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        for (int i = size; size < storage.length; i++) {
-                storage[i] = r;
-                size++;
-                break;
-        }
+        storage[size] = r;
+        size++;
     }
+
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
@@ -33,7 +28,7 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        int i = 0;
+        int i;
         for (i = 0; i < size; i++) {
             if (storage[i].uuid == uuid) {
                 break;
