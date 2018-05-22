@@ -3,9 +3,8 @@
  */
 public class ArrayStorage {
 
-    Resume[] storage = new Resume[10000];
-    private int size;
-
+    private Resume[] storage = new Resume[10000];
+    private int size = 0;
 
     void clear() {
         storage = new Resume[10000];
@@ -13,31 +12,56 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
-        if(size < storage.length) {
-            storage[size] = r;
-            size++;
+        if (size < storage.length) {
+            for (int i = 0; i <= size; i++) {
+                if (r.equals(storage[i])) {
+                    System.out.println("!");
+                    break;
+                } else {
+                    storage[size] = r;
+                    size++;
+                    break;
+                }
+
+            }
+        }
+    }
+
+    void update(Resume r) {
+        for (int i = 0; i < size; i++) {
+            if (r.equals(storage[i])) {
+                storage[i] = r;
+            } else {
+                System.out.println("Резюме отсутствует");
+                break;
+            }
         }
     }
 
 
     Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid == uuid) {
+            if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
+
         }
+        System.out.println("Резюме отсутствует");
         return null;
     }
 
     void delete(String uuid) {
-        int i;
-        for (i = 0; i < size; i++) {
-            if (storage[i].uuid == uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].uuid)) {
+                storage[i] = storage[size - 1];
+                storage[size - 1] = null;
+                size--;
+                break;
+            } else {
+                System.out.println("Резюме отсутствует");
                 break;
             }
         }
-        System.arraycopy(storage, i + 1, storage, i, size);
-        size--;
     }
 
     Resume[] getAll() {
@@ -49,5 +73,4 @@ public class ArrayStorage {
     int size() {
         return size;
     }
-
 }
