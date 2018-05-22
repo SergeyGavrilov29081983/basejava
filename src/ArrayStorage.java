@@ -44,6 +44,7 @@ public class ArrayStorage {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
+
         }
         System.out.println("Резюме отсутствует");
         return null;
