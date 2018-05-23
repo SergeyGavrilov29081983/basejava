@@ -29,29 +29,34 @@ public class MainTestArrayStorage {
         ARRAY_STORAGE.save(r4);
         ARRAY_STORAGE.save(r4);
 
-        /*/System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
+        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1));
+        System.out.println("Get resume: " + ARRAY_STORAGE.get(r5));
 
-        //System.out.println("Size: " + ARRAY_STORAGE.size());
+        //printAll();
+
+        System.out.println("Size: " + ARRAY_STORAGE.size());
 
         //System.out.println("Get dummy: " + ARRAY_STORAGE.get("dummy"));
 
         printAll();
 
-        //ARRAY_STORAGE.delete(r1.uuid);
+        ARRAY_STORAGE.delete(r1);
 
         //printAll();
 
-        //ARRAY_STORAGE.delete(r1.uuid);
+        ARRAY_STORAGE.delete(r1);
 
-        ARRAY_STORAGE.delete(r4.uuid);
-
-        printAll();
-
-        System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
+        //RRAY_STORAGE.delete(r4.uuid);
 
         printAll();
 
-        System.out.println("Get r3: " + ARRAY_STORAGE.get(r3.uuid));
+       // System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.getUuid()));
+
+        //printAll();
+
+        //System.out.println("Get r3: " + ARRAY_STORAGE.get(r3.getUuid()));
+
+        ARRAY_STORAGE.update(r2);
 
         printAll();
 
@@ -61,10 +66,10 @@ public class MainTestArrayStorage {
 
         printAll();
 
-        System.out.println("Size: " + ARRAY_STORAGE.size()); */
+        System.out.println("Size: " + ARRAY_STORAGE.size());
 
 
-        ARRAY_STORAGE.update(r4.uuid = "mo");
+        //ARRAY_STORAGE.update(r3);
 
         printAll();
     }

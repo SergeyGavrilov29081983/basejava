@@ -8,6 +8,7 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
 
+
     public void clear() {
         Arrays.fill(storage, null);
         size = 0;
@@ -15,7 +16,7 @@ public class ArrayStorage {
 
     public void save(Resume r) {
         if (size < storage.length) {
-            if (Arrays.asList(storage).contains(r)) {
+            if (isElement(r)) {
                 System.out.println("Такое резюме уже есть в базе " + r);
             } else {
                 storage[size] = r;
@@ -26,41 +27,30 @@ public class ArrayStorage {
         }
     }
 
-
-    public void update(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i])) {
-                storage[i].uuid = uuid;
-                break;
-            } else {
-                System.out.println("Резюме отсутствует");
-                break;
-            }
+    public void update(Resume r) {
+        if (isElement(r)) {
+            storage[getElement(r)] = r;
+        } else {
+            System.out.println("Резюме отсутствует");
         }
     }
 
-
-    public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].uuid)) {
-                return storage[i];
-            }
+    public Resume get(Resume r) {
+        if (isElement(r)) {
+            return storage[getElement(r)];
+        } else {
+            System.out.println("Резюме отсутствует");
+            return null;
         }
-        System.out.println("Резюме отсутствует");
-        return null;
     }
 
-    public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].uuid)) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-                break;
-            } else {
-                System.out.println("Резюме отсутствует");
-                break;
-            }
+    public void delete(Resume r) {
+        if (isElement(r)) {
+            storage[getElement(r)] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        } else {
+            System.out.println("Резюме отсутствует");
         }
     }
 
@@ -70,5 +60,23 @@ public class ArrayStorage {
 
     public int size() {
         return size;
+    }
+
+    private boolean isElement(Resume r) {
+        for (int i = 0; i <= size; i++) {
+            if (r.equals(storage[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int getElement(Resume r) {
+        for (int i = 0; i <= size; i++) {
+            if (r.equals(storage[i])) {
+                return i;
+            }
+        }
+        return 0;
     }
 }
