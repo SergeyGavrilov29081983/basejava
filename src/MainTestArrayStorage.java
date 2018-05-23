@@ -63,6 +63,9 @@ public class MainTestArrayStorage {
 
         System.out.println("Size: " + ARRAY_STORAGE.size()); */
 
+
+        ARRAY_STORAGE.update(r4.uuid = "mo");
+
         printAll();
     }
 

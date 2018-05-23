@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
@@ -6,31 +8,30 @@ public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
     private int size = 0;
 
-    void clear() {
-        storage = new Resume[10000];
+    public void clear() {
+        Arrays.fill(storage, null);
         size = 0;
     }
 
-    void save(Resume r) {
+    public void save(Resume r) {
         if (size < storage.length) {
-            for (int i = 0; i <= size; i++) {
-                if (r.equals(storage[i])) {
-                    System.out.println("!");
-                    break;
-                } else {
-                    storage[size] = r;
-                    size++;
-                    break;
-                }
-
+            if (Arrays.asList(storage).contains(r)) {
+                System.out.println("Такое резюме уже есть в базе " + r);
+            } else {
+                storage[size] = r;
+                size++;
             }
+        } else {
+            System.out.println("база резюме полная!!!");
         }
     }
 
-    void update(Resume r) {
+
+    public void update(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (r.equals(storage[i])) {
-                storage[i] = r;
+            if (uuid.equals(storage[i])) {
+                storage[i].uuid = uuid;
+                break;
             } else {
                 System.out.println("Резюме отсутствует");
                 break;
@@ -39,18 +40,17 @@ public class ArrayStorage {
     }
 
 
-    Resume get(String uuid) {
+    public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].uuid.equals(uuid)) {
+            if (uuid.equals(storage[i].uuid)) {
                 return storage[i];
             }
-
         }
         System.out.println("Резюме отсутствует");
         return null;
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid.equals(storage[i].uuid)) {
                 storage[i] = storage[size - 1];
@@ -64,13 +64,11 @@ public class ArrayStorage {
         }
     }
 
-    Resume[] getAll() {
-        Resume[] storage1 = new Resume[size];
-        System.arraycopy(storage, 0, storage1, 0, size);
-        return storage1;
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
     }
 
-    int size() {
+    public int size() {
         return size;
     }
 }
