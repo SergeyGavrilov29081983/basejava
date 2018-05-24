@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 /**
  * Test for com.urise.webapp.storage.ArrayStorage
  */
