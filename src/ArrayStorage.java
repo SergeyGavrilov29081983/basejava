@@ -7,8 +7,6 @@ public class ArrayStorage {
 
     private Resume[] storage = new Resume[10000];
     private int size = 0;
-    private int position = 0;
-
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -17,8 +15,8 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (size < storage.length) {
-            if (isElement(resume)) {
-                System.out.println("Такое резюме уже есть в базе " + resume);
+            if (resume.equals(storage[getIndex(resume)])) {
+                System.out.println("Резюме  с uuid = " + resume + " уже существует");
             } else {
                 storage[size] = resume;
                 size++;
@@ -29,29 +27,29 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (isElement(resume)) {
-            storage[position] = resume;
+        if (resume.equals(storage[getIndex(resume)])) {
+            storage[getIndex(resume)] = resume;
         } else {
-            System.out.println("Резюме отсутствует " + resume);
+            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
         }
     }
 
     public Resume get(Resume resume) {
-        if (isElement(resume)) {
-            return storage[position];
+        if (resume.equals(storage[getIndex(resume)])) {
+            return storage[getIndex(resume)];
         } else {
-            System.out.println("Резюме отсутствует " + resume);
+            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
             return null;
         }
     }
 
     public void delete(Resume resume) {
-        if (isElement(resume)) {
+        if (resume.equals(storage[getIndex(resume)])) {
             size--;
-            storage[position] = storage[size];
+            storage[getIndex(resume)] = storage[size];
             storage[size] = null;
         } else {
-            System.out.println("Резюме отсутствует " + resume);
+            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
         }
     }
 
@@ -63,13 +61,13 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean isElement(Resume resume) {
+    private int getIndex(Resume resume) {
         for (int i = 0; i <= size; i++) {
             if (resume.equals(storage[i])) {
-                position = i;
-                return true;
+
+                return i;
             }
         }
-        return false;
+        return 0;
     }
 }
