@@ -7,6 +7,7 @@ public class ArrayStorage {
 
     private Resume[] storage = new Resume[10000];
     private int size = 0;
+    int position = 0;
 
 
     public void clear() {
@@ -29,7 +30,7 @@ public class ArrayStorage {
 
     public void update(Resume r) {
         if (isElement(r)) {
-            storage[getElement(r)] = r;
+            storage[position] = r;
         } else {
             System.out.println("Резюме отсутствует");
         }
@@ -37,7 +38,7 @@ public class ArrayStorage {
 
     public Resume get(Resume r) {
         if (isElement(r)) {
-            return storage[getElement(r)];
+            return storage[position];
         } else {
             System.out.println("Резюме отсутствует");
             return null;
@@ -46,7 +47,7 @@ public class ArrayStorage {
 
     public void delete(Resume r) {
         if (isElement(r)) {
-            storage[getElement(r)] = storage[size - 1];
+            storage[position] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         } else {
@@ -65,6 +66,7 @@ public class ArrayStorage {
     private boolean isElement(Resume r) {
         for (int i = 0; i <= size; i++) {
             if (r.equals(storage[i])) {
+                position = i;
                 return true;
             }
         }
