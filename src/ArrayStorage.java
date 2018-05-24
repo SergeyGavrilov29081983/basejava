@@ -7,20 +7,20 @@ public class ArrayStorage {
 
     private Resume[] storage = new Resume[10000];
     private int size = 0;
-    int position = 0;
+    private int position = 0;
 
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (size < storage.length) {
-            if (isElement(r)) {
-                System.out.println("Такое резюме уже есть в базе " + r);
+            if (isElement(resume)) {
+                System.out.println("Такое резюме уже есть в базе " + resume);
             } else {
-                storage[size] = r;
+                storage[size] = resume;
                 size++;
             }
         } else {
@@ -28,30 +28,30 @@ public class ArrayStorage {
         }
     }
 
-    public void update(Resume r) {
-        if (isElement(r)) {
-            storage[position] = r;
+    public void update(Resume resume) {
+        if (isElement(resume)) {
+            storage[position] = resume;
         } else {
-            System.out.println("Резюме отсутствует");
+            System.out.println("Резюме отсутствует " + resume);
         }
     }
 
-    public Resume get(Resume r) {
-        if (isElement(r)) {
+    public Resume get(Resume resume) {
+        if (isElement(resume)) {
             return storage[position];
         } else {
-            System.out.println("Резюме отсутствует");
+            System.out.println("Резюме отсутствует " + resume);
             return null;
         }
     }
 
-    public void delete(Resume r) {
-        if (isElement(r)) {
-            storage[position] = storage[size - 1];
-            storage[size - 1] = null;
+    public void delete(Resume resume) {
+        if (isElement(resume)) {
             size--;
+            storage[position] = storage[size];
+            storage[size] = null;
         } else {
-            System.out.println("Резюме отсутствует");
+            System.out.println("Резюме отсутствует " + resume);
         }
     }
 
@@ -63,22 +63,13 @@ public class ArrayStorage {
         return size;
     }
 
-    private boolean isElement(Resume r) {
+    private boolean isElement(Resume resume) {
         for (int i = 0; i <= size; i++) {
-            if (r.equals(storage[i])) {
+            if (resume.equals(storage[i])) {
                 position = i;
                 return true;
             }
         }
         return false;
-    }
-
-    private int getElement(Resume r) {
-        for (int i = 0; i <= size; i++) {
-            if (r.equals(storage[i])) {
-                return i;
-            }
-        }
-        return 0;
     }
 }
