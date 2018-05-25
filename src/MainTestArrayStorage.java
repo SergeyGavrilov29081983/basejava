@@ -54,7 +54,7 @@ public class MainTestArrayStorage {
 
         System.out.println("Get r3: " + ARRAY_STORAGE.get(r3.uuid));
 
-        ARRAY_STORAGE.update(r2);
+        ARRAY_STORAGE.update("uuid2");
 
         printAll();
 
@@ -67,7 +67,7 @@ public class MainTestArrayStorage {
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
 
-        ARRAY_STORAGE.update(r3);
+        ARRAY_STORAGE.update("uuid8");
 
         printAll();
     }
