@@ -15,8 +15,8 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (size < storage.length) {
-            if (resume.equals(storage[getIndex(resume)])) {
-                System.out.println("Резюме  с uuid = " + resume + " уже существует");
+            if (getIndex(resume) != -1) {
+                System.out.println("Резюме  с uuid = " + resume.getUuid() + " уже существует");
             } else {
                 storage[size] = resume;
                 size++;
@@ -27,29 +27,29 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (resume.equals(storage[getIndex(resume)])) {
+        if (getIndex(resume) != -1) {
             storage[getIndex(resume)] = resume;
         } else {
-            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
+            System.out.println("Резюме  с uuid = " + resume.getUuid() + " отсутствует");
         }
     }
 
     public Resume get(Resume resume) {
-        if (resume.equals(storage[getIndex(resume)])) {
+        if (getIndex(resume) != -1) {
             return storage[getIndex(resume)];
         } else {
-            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
+            System.out.println("Резюме  с uuid = " + resume.getUuid() + " отсутствует");
             return null;
         }
     }
 
     public void delete(Resume resume) {
-        if (resume.equals(storage[getIndex(resume)])) {
+        if (getIndex(resume) != -1) {
             size--;
             storage[getIndex(resume)] = storage[size];
             storage[size] = null;
         } else {
-            System.out.println("Резюме  с uuid = " + resume + " отсутствует");
+            System.out.println("Резюме  с uuid = " + resume.getUuid() + " отсутствует");
         }
     }
 
@@ -64,10 +64,9 @@ public class ArrayStorage {
     private int getIndex(Resume resume) {
         for (int i = 0; i <= size; i++) {
             if (resume.equals(storage[i])) {
-
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 }
