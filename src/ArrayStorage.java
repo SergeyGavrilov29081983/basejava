@@ -15,7 +15,7 @@ public class ArrayStorage {
 
     public void save(Resume resume) {
         if (size < storage.length) {
-            if (getIndex(resume.uuid) != -1) {
+            if (getIndex(resume.getUuid()) != -1) {
                 System.out.println("Резюме  с uuid = " + resume.getUuid() + " уже существует");
             } else {
                 storage[size] = resume;
@@ -27,12 +27,12 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        int index = getIndex(resume.uuid);
+        int index = getIndex(resume.getUuid());
         if (index != -1) {
             storage[index] = resume;
             System.out.println("update");
         } else {
-            System.out.println("Резюме  с uuid = " + resume.uuid + " отсутствует");
+            System.out.println("Резюме  с uuid = " + resume.getUuid() + " отсутствует");
         }
     }
 
@@ -66,7 +66,7 @@ public class ArrayStorage {
 
     private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].uuid)) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
