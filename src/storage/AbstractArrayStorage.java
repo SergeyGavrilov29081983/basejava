@@ -1,12 +1,14 @@
+package storage;
+
+import model.Resume;
+
 import java.util.Arrays;
 
-/**
- * Array based storage for Resumes
- */
-public class ArrayStorage {
+public abstract class AbstractArrayStorage implements Storage {
 
-    private Resume[] storage = new Resume[10000];
-    private int size = 0;
+    protected static final int STORAGE_LIMIT = 10000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size = 0;
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -14,7 +16,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (size < storage.length) {
+        if (size < STORAGE_LIMIT) {
             if (getIndex(resume.getUuid()) != -1) {
                 System.out.println("Резюме  с uuid = " + resume.getUuid() + " уже существует");
             } else {
@@ -30,19 +32,9 @@ public class ArrayStorage {
         int index = getIndex(resume.getUuid());
         if (index != -1) {
             storage[index] = resume;
-            System.out.println("update");
         } else {
             System.out.println("Резюме  с uuid = " + resume.getUuid() + " отсутствует");
         }
-    }
-
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index != -1) {
-            return storage[index];
-        }
-            System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
-            return null;
     }
 
     public void delete(String uuid) {
@@ -56,20 +48,23 @@ public class ArrayStorage {
         }
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index != -1) {
+            return storage[index];
+        }
+        System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
+        return null;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
-    private int getIndex(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (uuid.equals(storage[i].getUuid())) {
-                return i;
-            }
-        }
-        return -1;
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
     }
+
+    protected abstract int getIndex(String uuid);
 }
