@@ -67,7 +67,11 @@ public class MainTestArrayStorage {
 
         SORTED_ARRAY_STORAGE.clear();
 
+        SORTED_ARRAY_STORAGE.save(r4);
+
         printAll();
+
+        SORTED_ARRAY_STORAGE.save(r4);
 
         System.out.println("Size: " + SORTED_ARRAY_STORAGE.size());
 
