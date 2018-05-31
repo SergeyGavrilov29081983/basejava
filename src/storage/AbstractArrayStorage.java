@@ -43,6 +43,7 @@ public abstract class AbstractArrayStorage implements Storage {
             size--;
             storage[index] = storage[size];
             storage[size] = null;
+            Arrays.sort(storage, 0, size);
         } else {
             System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
         }
