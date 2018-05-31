@@ -10,7 +10,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
-            System.arraycopy(storage, index + 1, storage, index, size);;
+            System.arraycopy(storage, index + 1, storage, index, size);
             size--;
         } else {
             System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
