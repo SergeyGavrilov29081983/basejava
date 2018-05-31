@@ -2,6 +2,11 @@
 out
 *.iml
 log
+*.xml
+_windows
+codestyles
+mytest
+
 
 
 
