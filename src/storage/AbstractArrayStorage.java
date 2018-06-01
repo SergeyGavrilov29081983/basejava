@@ -55,12 +55,13 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index != -1) {
             size--;
-            storage[index] = storage[size];
-            storage[size] = null;
+            deleteAlgo(uuid);
         } else {
             System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
         }
     }
+
+    protected abstract void deleteAlgo(String uuid);
 
     @Override
     public int size() {
