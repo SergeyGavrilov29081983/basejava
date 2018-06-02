@@ -64,7 +64,6 @@ public class MainTestArrayStorage {
         printAll();
 
 
-
         SORTED_ARRAY_STORAGE.clear();
 
         SORTED_ARRAY_STORAGE.save(r4);

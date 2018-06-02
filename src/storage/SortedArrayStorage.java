@@ -1,24 +1,18 @@
 package storage;
 
 import model.Resume;
-
 import java.util.Arrays;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void doSave(Resume resume){
+    protected void doSave(Resume resume) {
+        int index = -(getIndex(resume.getUuid()) + 1);
+        System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = resume;
 
-            Resume searchKey = new Resume();
-            searchKey.setUuid(resume.getUuid());
-            int index = -(Arrays.binarySearch(storage, 0, size, searchKey) + 1);
-            System.arraycopy(storage, index, storage, index + 1, size - index);
-            System.out.println(index);
-            storage[index] = resume;
-
-
-
-        //Arrays.sort(storage,0,size);
+        /*storage[size] = resume;
+        Arrays.sort(storage, 0 , size);*/
     }
 
     @Override
@@ -30,10 +24,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected int getIndex(String uuid) {
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
-        int index = Arrays.binarySearch(storage, 0, size, searchKey);
-        if (index >= 0) {
-            return index;
-        }
-        return -1;
+        return Arrays.binarySearch(storage, 0, size, searchKey);
     }
 }
