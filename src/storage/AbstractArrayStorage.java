@@ -21,15 +21,15 @@ public abstract class AbstractArrayStorage implements Storage {
             if (getIndex(resume.getUuid()) != -1) {
                 System.out.println("Резюме  с uuid = " + resume.getUuid() + " уже существует");
             } else {
-                storage[size] = resume;
+                doSave(resume);
                 size++;
-
             }
         } else {
             System.out.println("Хранилище заполнено");
         }
     }
 
+    protected abstract void doSave(Resume resume);
 
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
@@ -54,14 +54,14 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
+            doDelete(index);
             size--;
-            deleteAlgo(uuid);
         } else {
             System.out.println("Резюме  с uuid = " + uuid + " отсутствует");
         }
     }
 
-    protected abstract void deleteAlgo(String uuid);
+    protected abstract void doDelete(int index);
 
     @Override
     public int size() {

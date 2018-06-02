@@ -63,7 +63,7 @@ public class MainTestArrayStorage {
 
         printAll();
 
-        printAll();
+
 
         SORTED_ARRAY_STORAGE.clear();
 
@@ -78,7 +78,11 @@ public class MainTestArrayStorage {
 
         SORTED_ARRAY_STORAGE.update(r5);
         printAll();
-//        System.out.println(SORTED_ARRAY_STORAGE.getIndex(r3.getUuid()));
+
+
+        SORTED_ARRAY_STORAGE.delete(r2.getUuid());
+
+        SORTED_ARRAY_STORAGE.delete(r3.getUuid());
         printAll();
 
 

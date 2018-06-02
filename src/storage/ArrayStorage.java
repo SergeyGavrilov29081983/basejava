@@ -8,12 +8,16 @@ import model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void deleteAlgo(String uuid) {
-        Resume searchKey = new Resume();
-        searchKey.setUuid(uuid);
-        int index = getIndex(uuid);
+    protected void doSave(Resume resume) {
+        storage[size] = resume;
+
+    }
+
+    @Override
+    protected void doDelete(int index) {
         storage[index] = storage[size];
         storage[size] = null;
+
     }
 
     @Override
