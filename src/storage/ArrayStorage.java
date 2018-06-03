@@ -8,14 +8,13 @@ import model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void doSave(Resume resume) {
+    protected void doSave(Resume resume, int index) {
         storage[size] = resume;
     }
 
     @Override
     protected void doDelete(int index) {
         storage[index] = storage[size];
-        storage[size] = null;
     }
 
     @Override
