@@ -15,9 +15,9 @@ public abstract class AbstractArrayStorageTest {
     private static final Resume RESUME = new Resume(UUID_1);
     private static final Resume RESUME_NOT_EXIST = new Resume("uuid4");
 
-   private Storage storage;
+    private Storage storage;
 
-   protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractArrayStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -92,10 +92,13 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = StorageException.class)
     public void storageOverflow() {
         storage.clear();
-        for (int i = 0; i < 10000; i++) {
-            storage.save(new Resume());
+        try {
+            for (int i = 0; i < 10000; i++) {
+                storage.save(new Resume());
+            }
+        } catch (Exception e) {
+            Assert.fail();
         }
         storage.save(new Resume());
-        Assert.fail();
     }
 }
