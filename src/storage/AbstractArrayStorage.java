@@ -6,7 +6,7 @@ import exceptions.StorageException;
 import model.Resume;
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
@@ -23,7 +23,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(resume.getUuid());
         if (size < STORAGE_LIMIT) {
             if (index >= 0) {
-                throw new ExistStorageException(resume.getUuid());
+                generateException(index, resume.getUuid());
             } else {
                 doSave(resume, index);
                 size++;
@@ -39,17 +39,17 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             storage[index] = resume;
         } else {
-            throw new NotExistStorageException(resume.getUuid());
+            generateException(index, resume.getUuid());
         }
     }
 
     @Override
     public Resume get(String uuid) {
         int index = getIndex(uuid);
-        if (index >= 0) {
-            return storage[index];
+        if (index < 0) {
+            generateException(index, uuid);
         }
-        throw new NotExistStorageException(uuid);
+        return storage[index];
     }
 
     @Override
@@ -60,7 +60,7 @@ public abstract class AbstractArrayStorage implements Storage {
             doDelete(index);
             storage[size] = null;
         } else {
-            throw new NotExistStorageException(uuid);
+            generateException(index, uuid);
         }
     }
 
@@ -73,8 +73,6 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
-
-    protected abstract int getIndex(String uuid);
 
     protected abstract void doSave(Resume resume, int index);
 
