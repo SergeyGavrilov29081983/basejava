@@ -4,69 +4,63 @@ import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
 import model.Resume;
 
-import java.util.ArrayList;
-
 public abstract class AbstractStorage implements Storage {
-
-    ArrayList<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
-        storage.clear();
+        clearStorage();
     }
 
     @Override
-    public void save(Resume resume) throws Exception {
+    public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index >= 0){
-            generateException(index, resume.getUuid());
-        } else {
-            storage.add(resume);
-        }
-    }
-
-    @Override
-    public void update(Resume resume) throws Exception {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            storage.set(index, new Resume(resume.getUuid()));
+        if (index < 0) {
+            saveElement(resume, index, null);
         } else {
             generateException(index, resume.getUuid());
         }
     }
 
     @Override
-    public Resume get(String uuid) throws Exception {
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index < 0) {
+            generateException(index, resume.getUuid());
+        } else {
+            updateElement(resume, index, null);
+        }
+    }
+
+    @Override
+    public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             generateException(index, uuid);
         }
-        return storage.get(index);
+        return getElement(index, null);
     }
 
     @Override
-    public void delete(String uuid) throws Exception {
+    public void delete(String uuid) {
         int index = getIndex(uuid);
-        Resume resume = new Resume(uuid);
-        if (index >= 0) {
-            storage.remove(resume);
+        if (index < 0) {
+            generateException(index, uuid);
         } else {
-           generateException(index, uuid);
+            deleteElement(index, null);
         }
     }
 
-
     public Resume[] getAll() {
-        storage.trimToSize();
-        return storage.toArray(new Resume[0]);
+        return getAllElements();
     }
 
     @Override
     public int size() {
-        return storage.size();
+        return storageSize();
     }
+
     protected void generateException(int index, String uuid) {
-        if (index < 0){
+        if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
             throw new ExistStorageException(uuid);
@@ -74,6 +68,20 @@ public abstract class AbstractStorage implements Storage {
     }
 
     protected abstract int getIndex(String uuid);
+
+    protected abstract void clearStorage();
+
+    protected abstract void saveElement(Resume resume, int index, String uuid);
+
+    protected abstract void updateElement(Resume resume, int index, String uuid);
+
+    protected abstract Resume getElement(int index, String uuid);
+
+    protected abstract void deleteElement(int index, String uuid);
+
+    protected abstract Resume[] getAllElements();
+
+    protected abstract int storageSize();
 }
 
 

@@ -2,41 +2,8 @@ package storage;
 
 import model.Resume;
 
-public class MapStorage extends AbstractStorage{
-    @Override
-    public void clear() {
 
-    }
-
-    @Override
-    public void save(Resume resume) {
-
-    }
-
-    @Override
-    public void update(Resume resume) {
-
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        return null;
-    }
-
-    @Override
-    public void delete(String uuid) {
-
-    }
-
-    @Override
-    public Resume[] getAll() {
-        return new Resume[0];
-    }
-
-    @Override
-    public int size() {
-        return 0;
-    }
+public class MapStorage extends AbstractStorage {
 
     @Override
     protected int getIndex(String uuid) {
@@ -44,7 +11,36 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    protected void generateException(int index, String uuid) {
+    protected void clearStorage() {
+    }
 
+    @Override
+    protected void saveElement(Resume resume, int index, String uuid) {
+
+    }
+
+    @Override
+    protected void updateElement(Resume resume, int index, String uuid) {
+
+    }
+
+    @Override
+    protected Resume getElement(int index, String uuid) {
+        return null;
+    }
+
+    @Override
+    protected void deleteElement(int index, String uuid) {
+
+    }
+
+    @Override
+    protected Resume[] getAllElements() {
+        return new Resume[0];
+    }
+
+    @Override
+    protected int storageSize() {
+        return 0;
     }
 }
