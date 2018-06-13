@@ -1,8 +1,8 @@
 package storage;
 
+import exceptions.ExistStorageException;
 import exceptions.StorageException;
 import model.Resume;
-
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -12,14 +12,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
+    }
+
+    @Override
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (size < STORAGE_LIMIT) {
             if (index < 0) {
-                saveElement(resume, index, null);
+                saveElement(resume);
                 size++;
             } else {
-                generateException(index, null);
+                throw new ExistStorageException(resume.getUuid());
             }
         } else {
             throw new StorageException("storage overflow", resume.getUuid());
@@ -28,37 +34,26 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            generateException(index, uuid);
-        } else {
-            size--;
-            deleteElement(index, null);
-            storage[size] = null;
-        }
+        size--;
+        deleteElement(uuid);
+        storage[size] = null;
     }
 
     @Override
-    protected void clearStorage() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
-    protected void updateElement(Resume resume, int index, String uuid) {
-        storage[index] = resume;
-    }
-
-    protected Resume getElement(int index, String uuid) {
-        return storage[index];
-    }
-
-    @Override
-    protected Resume[] getAllElements() {
+    public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
     @Override
-    protected int storageSize() {
+    public int size() {
         return size;
+    }
+
+    protected void updateElement(Resume resume, String uuid) {
+        storage[getIndex(uuid)] = resume;
+    }
+
+    protected Resume getElement(String uuid) {
+        return storage[getIndex(uuid)];
     }
 }

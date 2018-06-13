@@ -2,45 +2,50 @@ package storage;
 
 import model.Resume;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class MapStorage extends AbstractStorage {
+
+    private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected int getIndex(String uuid) {
         return 0;
     }
 
+
     @Override
-    protected void clearStorage() {
+    protected void saveElement(Resume resume) {
     }
 
     @Override
-    protected void saveElement(Resume resume, int index, String uuid) {
-
-    }
-
-    @Override
-    protected void updateElement(Resume resume, int index, String uuid) {
+    protected void updateElement(Resume resume, String uuid) {
 
     }
 
     @Override
-    protected Resume getElement(int index, String uuid) {
+    protected Resume getElement (String uuid) {
         return null;
     }
 
     @Override
-    protected void deleteElement(int index, String uuid) {
+    protected void deleteElement(String uuid) {
+    }
+
+    @Override
+    public void clear() {
 
     }
 
     @Override
-    protected Resume[] getAllElements() {
+    public Resume[] getAll() {
         return new Resume[0];
     }
 
     @Override
-    protected int storageSize() {
+    public int size() {
         return 0;
     }
 }

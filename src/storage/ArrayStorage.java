@@ -8,13 +8,13 @@ import model.Resume;
 public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
-    protected void saveElement(Resume resume, int index, String uuid) {
+    protected void saveElement(Resume resume) {
         storage[size] = resume;
     }
 
     @Override
-    protected void deleteElement(int index, String uuid) {
-        storage[index] = storage[size];
+    protected void deleteElement(String uuid) {
+        storage[getIndex(uuid)] = storage[size];
     }
 
     @Override
@@ -26,6 +26,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
-
 }
