@@ -1,8 +1,8 @@
 package storage;
 
-import exceptions.ExistStorageException;
 import exceptions.StorageException;
 import model.Resume;
+
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
@@ -12,48 +12,48 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     @Override
-    public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    public final void saveElement(Resume resume, Integer index) {
         if (size < STORAGE_LIMIT) {
-            if (index < 0) {
-                saveElement(resume);
-                size++;
-            } else {
-                throw new ExistStorageException(resume.getUuid());
-            }
+            insertResume(resume, getKeyIfResumeNotExist(resume.getUuid()));
+            size++;
         } else {
             throw new StorageException("storage overflow", resume.getUuid());
         }
     }
 
     @Override
-    public void delete(String uuid) {
+    public final void deleteElement(String uuid, Integer index) {
         size--;
-        deleteElement(uuid, getResume(uuid));
+        deleteResume(uuid, getKeyIfResumeExist(uuid));
         storage[size] = null;
     }
 
     @Override
-    public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
 
     @Override
-    public int size() {
+    public final int size() {
         return size;
     }
 
-    protected void updateElement(Resume resume, String uuid, Integer index) {
+    protected final void updateElement(Resume resume, Integer index) {
         storage[index] = resume;
     }
 
-    protected Resume getElement(String uuid, Integer index) {
+    @Override
+    protected final Resume getElement(String uuid, Integer index) {
         return storage[index];
     }
+
+    protected abstract void insertResume(Resume resume, Integer index);
+
+    protected abstract void deleteResume(String uuid, Integer index);
 }

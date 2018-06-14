@@ -1,16 +1,12 @@
 package storage;
 
 import model.Resume;
+
 import java.util.ArrayList;
 
 public class ListStorage extends AbstractStorage {
 
     private final ArrayList<Resume> storage = new ArrayList<>();
-
-    protected int getIndex(String uuid) {
-        Resume resume = new Resume(uuid);
-        return storage.indexOf(resume);
-    }
 
     @Override
     public void clear() {
@@ -18,12 +14,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveElement(Resume resume) {
+    protected void saveElement(Resume resume, Integer index) {
         storage.add(resume);
     }
 
     @Override
-    protected void updateElement(Resume resume, String uuid, Integer index) {
+    protected void updateElement(Resume resume, Integer index) {
         storage.set(index, resume);
     }
 
@@ -47,5 +43,11 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
+    }
+
+    @Override
+    protected int getKey(String uuid) {
+        Resume resume = new Resume(uuid);
+        return storage.indexOf(resume);
     }
 }

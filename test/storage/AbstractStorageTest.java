@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
 
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
@@ -18,7 +18,7 @@ public abstract class AbstractArrayStorageTest {
 
     private Storage storage;
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
