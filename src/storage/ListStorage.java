@@ -1,7 +1,6 @@
 package storage;
 
 import model.Resume;
-
 import java.util.ArrayList;
 
 public class ListStorage extends AbstractStorage {
@@ -24,18 +23,18 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(Resume resume, String uuid) {
-        storage.set(getIndex(uuid), resume);
+    protected void updateElement(Resume resume, String uuid, Integer index) {
+        storage.set(index, resume);
     }
 
     @Override
-    protected Resume getElement(String uuid) {
-        return storage.get(getIndex(uuid));
+    protected Resume getElement(String uuid, Integer index) {
+        return storage.get(index);
     }
 
     @Override
-    protected void deleteElement(String uuid) {
-        storage.remove(getIndex(uuid));
+    protected void deleteElement(String uuid, Integer index) {
+        storage.remove(index);
     }
 
     @Override

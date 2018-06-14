@@ -35,7 +35,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public void delete(String uuid) {
         size--;
-        deleteElement(uuid);
+        deleteElement(uuid, getIndex(uuid));
         storage[size] = null;
     }
 
@@ -49,11 +49,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected void updateElement(Resume resume, String uuid) {
-        storage[getIndex(uuid)] = resume;
+    protected void updateElement(Resume resume, String uuid, Integer index) {
+        storage[index] = resume;
     }
 
-    protected Resume getElement(String uuid) {
-        return storage[getIndex(uuid)];
+    protected Resume getElement(String uuid, Integer index) {
+        return storage[index];
     }
 }

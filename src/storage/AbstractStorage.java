@@ -18,17 +18,17 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        updateElement(resume, resume.getUuid());
+        updateElement(resume, resume.getUuid(), getResume(resume.getUuid()));
         }
 
     @Override
     public Resume get(String uuid) {
-        return getElement(uuid);
+        return getElement(uuid, getResume(uuid));
     }
 
     @Override
     public void delete(String uuid) {
-        deleteElement(uuid);
+        deleteElement((uuid), getResume(uuid));
     }
 
     protected int getResume(String uuid) {
@@ -43,11 +43,11 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void saveElement(Resume resume);
 
-    protected abstract void updateElement(Resume resume, String uuid);
+    protected abstract void updateElement(Resume resume, String uuid, Integer index);
 
-    protected abstract Resume getElement(String uuid);
+    protected abstract Resume getElement(String uuid, Integer index);
 
-    protected abstract void deleteElement(String uuid);
+    protected abstract void deleteElement(String uuid, Integer index);
 }
 
 

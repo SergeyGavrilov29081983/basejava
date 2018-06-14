@@ -21,17 +21,17 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(Resume resume, String uuid) {
+    protected void updateElement(Resume resume, String uuid, Integer index) {
 
     }
 
     @Override
-    protected Resume getElement (String uuid) {
+    protected Resume getElement (String uuid, Integer index) {
         return null;
     }
 
     @Override
-    protected void deleteElement(String uuid) {
+    protected void deleteElement(String uuid, Integer index) {
     }
 
     @Override
