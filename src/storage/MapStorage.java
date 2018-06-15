@@ -25,12 +25,12 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getElement(String uuid, Integer key) {
+    protected Resume getElement(Integer key) {
         return null;
     }
 
     @Override
-    protected void deleteElement(String uuid, Integer key) {
+    protected void deleteElement(Integer key) {
     }
 
     @Override

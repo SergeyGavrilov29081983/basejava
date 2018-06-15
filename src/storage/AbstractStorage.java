@@ -7,7 +7,7 @@ import model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     @Override
-    public void save(Resume resume) {
+    public final void save(Resume resume) {
         saveElement(resume, getKeyIfResumeNotExist(resume.getUuid()));
     }
 
@@ -18,39 +18,39 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public final Resume get(String uuid) {
-        return getElement(uuid, getKeyIfResumeExist(uuid));
+        return getElement(getKeyIfResumeExist(uuid));
     }
 
     @Override
-    public void delete(String uuid) {
-        deleteElement((uuid), getKeyIfResumeExist(uuid));
+    public final void delete(String uuid) {
+        deleteElement(getKeyIfResumeExist(uuid));
     }
 
-    protected final int getKeyIfResumeExist(String uuid) {
-        int index = getKey(uuid);
-        if (index < 0) {
+    private int getKeyIfResumeExist(String uuid) {
+        int key = getKey(uuid);
+        if (key < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return key;
     }
 
-    protected final int getKeyIfResumeNotExist(String uuid) {
-        int index = getKey(uuid);
-        if (index >= 0) {
+    private  int getKeyIfResumeNotExist(String uuid) {
+        int key = getKey(uuid);
+        if (key >= 0) {
             throw new ExistStorageException(uuid);
         }
-        return index;
+        return key;
     }
 
     protected abstract int getKey(String uuid);
 
-    protected abstract void saveElement(Resume resume, Integer index);
+    protected abstract void saveElement(Resume resume, Integer key);
 
-    protected abstract void updateElement(Resume resume, Integer index);
+    protected abstract void updateElement(Resume resume, Integer key);
 
-    protected abstract Resume getElement(String uuid, Integer index);
+    protected abstract Resume getElement(Integer key);
 
-    protected abstract void deleteElement(String uuid, Integer index);
+    protected abstract void deleteElement(Integer key);
 }
 
 

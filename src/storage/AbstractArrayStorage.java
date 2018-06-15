@@ -7,20 +7,20 @@ import java.util.Arrays;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
-    protected static final int STORAGE_LIMIT = 10000;
+    private static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     @Override
-    public final void clear() {
+    public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
     @Override
-    public final void saveElement(Resume resume, Integer index) {
+    public final void saveElement(Resume resume, Integer key) {
         if (size < STORAGE_LIMIT) {
-            insertResume(resume, getKeyIfResumeNotExist(resume.getUuid()));
+            insertResume(resume, key);
             size++;
         } else {
             throw new StorageException("storage overflow", resume.getUuid());
@@ -28,9 +28,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public final void deleteElement(String uuid, Integer index) {
+    public final void deleteElement(Integer key) {
         size--;
-        deleteResume(uuid, getKeyIfResumeExist(uuid));
+        deleteResume(key);
         storage[size] = null;
     }
 
@@ -44,16 +44,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected final void updateElement(Resume resume, Integer index) {
-        storage[index] = resume;
+    protected final void updateElement(Resume resume, Integer key) {
+        storage[key] = resume;
     }
 
     @Override
-    protected final Resume getElement(String uuid, Integer index) {
-        return storage[index];
+    protected final Resume getElement(Integer key) {
+        return storage[key];
     }
 
-    protected abstract void insertResume(Resume resume, Integer index);
+    protected abstract void insertResume(Resume resume, Integer key);
 
-    protected abstract void deleteResume(String uuid, Integer index);
+    protected abstract void deleteResume(Integer key);
 }

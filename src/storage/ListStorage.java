@@ -24,13 +24,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getElement(String uuid, Integer index) {
-        return storage.get(index);
+    protected Resume getElement(Integer key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void deleteElement(String uuid, Integer index) {
-        int element = index;
+    protected void deleteElement(Integer key) {
+        int element = key;
         storage.remove(element);
     }
 
