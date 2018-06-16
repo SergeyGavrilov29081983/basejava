@@ -44,13 +44,13 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract int getKey(String uuid);
 
-    protected abstract void saveElement(Resume resume, Integer key);
+    protected abstract void saveElement(Resume resume, Object key);
 
-    protected abstract void updateElement(Resume resume, Integer key);
+    protected abstract void updateElement(Resume resume, Object key);
 
-    protected abstract Resume getElement(Integer key);
+    protected abstract Resume getElement(Object key);
 
-    protected abstract void deleteElement(Integer key);
+    protected abstract void deleteElement(Object key);
 }
 
 

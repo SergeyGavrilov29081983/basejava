@@ -26,7 +26,7 @@ public abstract class AbstractStorageTest {
         RESUME_4 = new Resume(UUID_4);
     }
 
-    private Storage storage;
+    protected Storage storage;
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;

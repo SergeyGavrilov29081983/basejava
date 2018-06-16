@@ -16,21 +16,21 @@ public class MapStorage extends AbstractStorage {
 
 
     @Override
-    protected void saveElement(Resume resume, Integer key) {
+    protected void saveElement(Resume resume, Object key) {
     }
 
     @Override
-    protected void updateElement(Resume resume, Integer key) {
+    protected void updateElement(Resume resume, Object key) {
 
     }
 
     @Override
-    protected Resume getElement(Integer key) {
+    protected Resume getElement(Object key) {
         return null;
     }
 
     @Override
-    protected void deleteElement(Integer key) {
+    protected void deleteElement(Object key) {
     }
 
     @Override
