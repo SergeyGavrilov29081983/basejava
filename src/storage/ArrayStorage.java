@@ -13,8 +13,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void deleteResume(Integer key) {
-        storage[key] = storage[size];
+    protected void deleteResume(Integer index) {
+        storage[index] = storage[size];
     }
 
     @Override

@@ -4,14 +4,9 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class MapStorageTest {
+public class MapStorageTest extends AbstractStorageTest {
 
-    @Test
-    public void saveElement() {
-
-    }
-
-    @Test
-    public void deleteElement() {
+    protected MapStorageTest(Storage storage) {
+        super(storage);
     }
 }

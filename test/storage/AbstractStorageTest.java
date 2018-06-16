@@ -75,7 +75,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() throws Exception {
-        storage.get("uuid4");
+        storage.get(UUID_4);
     }
 
     @Test()
@@ -96,20 +96,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] storageExpected = new Resume[]{new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
+        Resume[] storageExpected = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         Assert.assertArrayEquals(storageExpected, storage.getAll());
-    }
-
-    @Test(expected = StorageException.class)
-    public void storageOverflow() throws Exception {
-        storage.clear();
-        try {
-            for (int i = 0; i < 10000; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail("тест закончился раньше времени");
-        }
-        storage.save(new Resume());
     }
 }
