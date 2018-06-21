@@ -1,10 +1,11 @@
 package storage;
 
+
 import model.Resume;
 
 import java.util.*;
 
-public class MapStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage {
 
     private Map<String, Resume> map = new HashMap<>();
 
@@ -20,24 +21,19 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume getElement(Object key) {
-        for (Map.Entry entry : map.entrySet()) {
-            Object searchKey = entry.getValue();
-        if (key.equals(entry.getValue())) {
-            return (Resume) searchKey;
+        for (Map.Entry<String, Resume> entry : map.entrySet()) {
+            Object searchKey = entry.getKey();
+            if (searchKey.equals(key)) {
+                return map.get(searchKey);
+            }
         }
-    }
         return null;
     }
 
     @Override
     protected void deleteElement(Object key) {
-        Object searchKey = null;
-        for (Map.Entry entry : map.entrySet()) {
-            if (key.equals(entry.getValue())) {
-                searchKey = entry.getKey();
-            }
-        }
-        map.remove((String) searchKey);
+        String searchKey = (String) key;
+        map.remove(searchKey);
     }
 
     @Override
@@ -64,12 +60,11 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String key) {
-        Object searchKey;
-        for (Map.Entry entry : map.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                searchKey = entry.getValue();
-                return searchKey;
+    protected Object getKey(String uuid) {
+        for (Map.Entry<String, Resume> entry : map.entrySet()) {
+            Object key = entry.getKey();
+            if (key.equals(uuid)) {
+                return key;
             }
         }
         return null;

@@ -3,10 +3,12 @@ package storage;
 import model.Resume;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private final ArrayList<Resume> storage = new ArrayList<>();
+    private List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -34,9 +36,14 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        storage.trimToSize();
-        return storage.toArray(new Resume[0]);
+    protected boolean isExist(Object key) {
+        return key != null;
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        storage.sort(Comparator.comparing(Resume::getUuid));
+        return storage;
     }
 
     @Override
@@ -45,8 +52,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int getKey(String uuid) {
-        Resume resume = new Resume(uuid);
-        return storage.indexOf(resume);
+    protected Integer getKey(String uuid) {
+            for (int i = 0; i < storage.size(); i++) {
+                if (storage.get(i).getUuid().equals(uuid)) {
+                    return i;
+                }
+            }
+            return null;
     }
 }

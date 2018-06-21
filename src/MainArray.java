@@ -4,6 +4,7 @@ import storage.ArrayStorage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Test for com.urise.webapp.storage.storage.ArrayStorage
@@ -22,6 +23,7 @@ public class MainArray {
                 continue;
             }
             String uuid = null;
+            String fullName = null;
             if (params.length == 2) {
                 uuid = params[1].intern();
             }
@@ -33,7 +35,7 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    r = new Resume(uuid);
+                    r = new Resume(uuid, fullName);
 
                     ARRAY_STORAGE.save(r);
                     printAll();
@@ -64,9 +66,10 @@ public class MainArray {
     }
 
     static void printAll() {
-        Resume[] all = ARRAY_STORAGE.getAll();
+        List<Resume> all = ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
-        if (all.length == 0) {
+        assert all != null;
+        if (all.isEmpty()) {
             System.out.println("Empty");
         } else {
             for (Resume r : all) {

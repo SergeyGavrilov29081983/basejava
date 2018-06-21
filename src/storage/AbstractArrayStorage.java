@@ -3,11 +3,12 @@ package storage;
 import exceptions.StorageException;
 import model.Resume;
 
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
     private static final int STORAGE_LIMIT = 10000;
+
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -35,8 +36,22 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public final Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    public final List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<>(Arrays.asList(storage));
+        List<Resume> sortedList = new ArrayList<>();
+        for (Resume r: list
+             ) {
+            if (r != null){
+                sortedList.add(r);
+            }
+        }
+        sortedList.sort(Comparator.comparing(Resume::getUuid));
+        return  sortedList;
+    }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 
     @Override

@@ -4,6 +4,7 @@ import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
 import model.Resume;
 
+
 public abstract class AbstractStorage implements Storage {
 
     @Override
@@ -26,23 +27,23 @@ public abstract class AbstractStorage implements Storage {
         deleteElement(getKeyIfResumeExist(uuid));
     }
 
-    private int getKeyIfResumeExist(String uuid) {
-        int key = getKey(uuid);
-        if (key < 0) {
+    private Object getKeyIfResumeExist(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
         }
         return key;
     }
 
-    private  int getKeyIfResumeNotExist(String uuid) {
-        int key = getKey(uuid);
-        if (key >= 0) {
+    private  Object getKeyIfResumeNotExist(String uuid) {
+        Object key = getKey(uuid);
+        if (isExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
     }
 
-    protected abstract int getKey(String uuid);
+    protected abstract Object getKey(String uuid);
 
     protected abstract void saveElement(Resume resume, Object key);
 
@@ -51,6 +52,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume getElement(Object key);
 
     protected abstract void deleteElement(Object key);
+
+    protected abstract boolean isExist(Object key);
 }
 
 
