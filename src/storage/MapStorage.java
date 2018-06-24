@@ -15,34 +15,22 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void updateElement(Resume resume, Object key) {
-        map.put(resume.getUuid(), resume);
+        map.put(resume.getUuid(), (Resume) key);
     }
 
     @Override
     protected Resume getElement(Object key) {
-        for (Map.Entry entry : map.entrySet()) {
-            Object searchKey = entry.getValue();
-        if (key.equals(entry.getValue())) {
-            return (Resume) searchKey;
-        }
-    }
-        return null;
+        return map.get(((Resume) key).getUuid());
     }
 
     @Override
     protected void deleteElement(Object key) {
-        Object searchKey = null;
-        for (Map.Entry entry : map.entrySet()) {
-            if (key.equals(entry.getValue())) {
-                searchKey = entry.getKey();
-            }
-        }
-        map.remove((String) searchKey);
+        map.remove(((Resume) key).getUuid());
     }
 
     @Override
     protected boolean isExist(Object key) {
-        return key != null;
+        return map.containsValue(key);
     }
 
     @Override
@@ -51,11 +39,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        Collection<Resume> list = map.values();
-        List<Resume> storage = new ArrayList<>(list);
-        storage.sort(Comparator.comparing(Resume::getUuid));
-        return storage;
+    protected List<Resume> getStorage() {
+        return new ArrayList<>(map.values());
     }
 
     @Override
@@ -64,14 +49,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String key) {
-        Object searchKey;
-        for (Map.Entry entry : map.entrySet()) {
-            if (entry.getKey().equals(key)) {
-                searchKey = entry.getValue();
-                return searchKey;
-            }
-        }
-        return null;
+    protected Object getKey(String uuid) {
+        return map.get(uuid);
     }
 }

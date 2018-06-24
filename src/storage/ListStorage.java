@@ -2,9 +2,7 @@ package storage;
 
 import model.Resume;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class ListStorage extends AbstractStorage {
 
@@ -41,9 +39,8 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        storage.sort(Comparator.comparing(Resume::getUuid));
-        return storage;
+    protected List<Resume> getStorage() {
+        return new ArrayList<>(storage);
     }
 
     @Override

@@ -21,7 +21,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public final void saveElement(Resume resume, Object index) {
         if (size < STORAGE_LIMIT) {
-            insertResume(resume, (int)index);
+            insertResume(resume, (int) index);
             size++;
         } else {
             throw new StorageException("storage overflow", resume.getUuid());
@@ -31,22 +31,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     @Override
     public final void deleteElement(Object index) {
         size--;
-        deleteResume((int)index);
+        deleteResume((int) index);
         storage[size] = null;
     }
 
     @Override
-    public final List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<>(Arrays.asList(storage));
-        List<Resume> sortedList = new ArrayList<>();
-        for (Resume r: list
-             ) {
-            if (r != null){
-                sortedList.add(r);
-            }
-        }
-        sortedList.sort(Comparator.comparing(Resume::getUuid));
-        return  sortedList;
+    protected List<Resume> getStorage() {
+        return Arrays.asList(Arrays.copyOf(storage, size));
     }
 
     @Override
@@ -59,13 +50,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
+    @Override
     protected final void updateElement(Resume resume, Object index) {
-        storage[(int)index] = resume;
+        storage[(int) index] = resume;
     }
 
     @Override
     protected final Resume getElement(Object index) {
-        return storage[(int)index];
+        return storage[(int) index];
     }
 
     protected abstract void insertResume(Resume resume, Integer index);

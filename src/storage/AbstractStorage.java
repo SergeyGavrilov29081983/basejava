@@ -4,6 +4,8 @@ import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
 import model.Resume;
 
+import java.util.*;
+
 
 public abstract class AbstractStorage implements Storage {
 
@@ -35,12 +37,19 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    private  Object getKeyIfResumeNotExist(String uuid) {
+    private Object getKeyIfResumeNotExist(String uuid) {
         Object key = getKey(uuid);
         if (isExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
+    }
+
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = getStorage();
+        list.sort(Comparator.comparing(Resume::getUuid));
+        return list;
     }
 
     protected abstract Object getKey(String uuid);
@@ -54,6 +63,8 @@ public abstract class AbstractStorage implements Storage {
     protected abstract void deleteElement(Object key);
 
     protected abstract boolean isExist(Object key);
+
+    protected abstract List<Resume> getStorage();
 }
 
 

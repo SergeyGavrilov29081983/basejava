@@ -1,6 +1,5 @@
 package storage;
 
-
 import model.Resume;
 
 import java.util.*;
@@ -21,13 +20,7 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected Resume getElement(Object key) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            Object searchKey = entry.getKey();
-            if (searchKey.equals(key)) {
-                return map.get(searchKey);
-            }
-        }
-        return null;
+        return map.get(key);
     }
 
     @Override
@@ -38,7 +31,7 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object key) {
-        return key != null;
+        return map.containsKey(key);
     }
 
     @Override
@@ -47,11 +40,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        Collection<Resume> list = map.values();
-        List<Resume> storage = new ArrayList<>(list);
-        storage.sort(Comparator.comparing(Resume::getUuid));
-        return storage;
+    protected List<Resume> getStorage () {
+        return new ArrayList<>(map.values());
     }
 
     @Override
@@ -61,12 +51,6 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected Object getKey(String uuid) {
-        for (Map.Entry<String, Resume> entry : map.entrySet()) {
-            Object key = entry.getKey();
-            if (key.equals(uuid)) {
-                return key;
-            }
-        }
-        return null;
+        return uuid;
     }
 }
