@@ -12,11 +12,6 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
-
-    public Resume() {
-        this(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-    }
-
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -51,4 +46,5 @@ public class Resume {
     public int hashCode() {
         return Objects.hash(uuid);
     }
+
 }

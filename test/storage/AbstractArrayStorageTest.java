@@ -5,6 +5,8 @@ import model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.UUID;
+
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
 
 
@@ -18,11 +20,11 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
         storage.clear();
         try {
             for (int i = 0; i < 10000; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume(UUID.randomUUID().toString()));
             }
         } catch (StorageException e) {
             Assert.fail("тест закончился раньше времени");
         }
-        storage.save(new Resume());
+        storage.save(new Resume(UUID.randomUUID().toString()));
     }
 }

@@ -16,7 +16,7 @@ public interface Storage {
 
     void delete(String uuid) throws Exception;
 
-    List getAllSorted();
+    List<Resume> getAllSorted();
 
     int size();
 }

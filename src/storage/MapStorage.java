@@ -20,7 +20,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Resume getElement(Object key) {
-        return map.get(((Resume) key).getUuid());
+        return (Resume) key;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isExist(Object key) {
-        return map.containsValue(key);
+        return key != null;
     }
 
     @Override

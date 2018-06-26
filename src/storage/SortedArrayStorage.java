@@ -4,10 +4,16 @@ import model.Resume;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Function;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(new Function<Resume, String>() {
+        @Override
+        public String apply(Resume resume) {
+            return resume.getUuid();
+        }
+    });
 
     @Override
     protected void insertResume(Resume resume, Integer index) {
