@@ -8,12 +8,7 @@ import java.util.function.Function;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(new Function<Resume, String>() {
-        @Override
-        public String apply(Resume resume) {
-            return resume.getUuid();
-        }
-    });
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
     protected void insertResume(Resume resume, Integer index) {
