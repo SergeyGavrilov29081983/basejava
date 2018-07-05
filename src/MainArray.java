@@ -1,4 +1,5 @@
 import model.Resume;
+import model.SectionType;
 import storage.ArrayStorage;
 
 import java.io.BufferedReader;
@@ -78,4 +79,6 @@ public class MainArray {
         }
         System.out.println("----------------------------");
     }
+
+    Resume resume = new Resume("uuid1", "sergo", SectionType.PERSONAL);
 }

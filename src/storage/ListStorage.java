@@ -4,7 +4,7 @@ import model.Resume;
 
 import java.util.*;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
     private List<Resume> storage = new ArrayList<>();
 
@@ -14,27 +14,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveElement(Resume resume, Object index) {
+    protected void saveElement(Resume resume, Integer index) {
         storage.add(resume);
     }
 
     @Override
-    protected void updateElement(Resume resume, Object index) {
-        storage.set((int)index, resume);
+    protected void updateElement(Resume resume, Integer index) {
+        storage.set(index, resume);
     }
 
     @Override
-    protected Resume getElement(Object key) {
-        return storage.get((int)key);
+    protected Resume getElement(Integer key) {
+        return storage.get(key);
     }
 
     @Override
-    protected void deleteElement(Object key) {
-        storage.remove((int) key);
+    protected void deleteElement(Integer key) {
+        storage.remove((int)key);
     }
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean isExist(Integer key) {
         return key != null;
     }
 
