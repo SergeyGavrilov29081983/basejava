@@ -1,6 +1,13 @@
 package model;
 
 public enum SectionType {
+    PHONE("Телефон:"),
+    SKYPE("Skype:"),
+    EMAIL("Почта:"),
+    LINKEDIN("профиль LinkedIn"),
+    GITHUB("профиль Github"),
+    STACKOVERFLOW("профиль StackOverFlow"),
+    HOMEPAGE("Домашняя страница:"),
     PERSONAL("Личные качества"),
     OBJECTIVE("Позиция"),
     ACHIEVEMENT("Достижения"),

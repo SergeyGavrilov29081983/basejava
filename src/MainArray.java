@@ -80,5 +80,5 @@ public class MainArray {
         System.out.println("----------------------------");
     }
 
-    Resume resume = new Resume("uuid1", "sergo", SectionType.PERSONAL);
+
 }

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -13,12 +14,6 @@ public class Resume implements Comparable<Resume> {
     private final String uuid;
     private final String fullName;
 
-    SectionType sectionType;
-    ResumeContacts resumeContacts;
-    TextSection textSection;
-    ListSection listSection;
-    ReferenceSection referenceSection;
-
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
@@ -30,7 +25,15 @@ public class Resume implements Comparable<Resume> {
         this.uuid = uuid;
     }
 
+    EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
 
+    public void addSection(SectionType sectionType, Section section) {
+        sectionMap.put(sectionType, section);
+    }
+
+    public void getSection(SectionType sectionType) {
+        sectionMap.get(sectionType);
+    }
 
     @Override
     public String toString() {
