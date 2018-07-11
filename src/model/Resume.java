@@ -25,14 +25,14 @@ public class Resume implements Comparable<Resume> {
         this.uuid = uuid;
     }
 
-    EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
+     private EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
 
     public void addSection(SectionType sectionType, Section section) {
         sectionMap.put(sectionType, section);
     }
 
-    public void getSection(SectionType sectionType) {
-        sectionMap.get(sectionType);
+    public Object getContent(SectionType sectionType) {
+        return sectionMap.get(sectionType);
     }
 
     @Override
