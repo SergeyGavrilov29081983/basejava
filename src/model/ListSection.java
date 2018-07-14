@@ -8,12 +8,12 @@ public class ListSection extends Section {
     private List<String> list = new ArrayList<>();
 
     @Override
-    protected void setSection(Object content) {
-        list.add((String) content);
+    protected void set(String data, String description, String reference) {
+        list.add(description);
     }
 
     @Override
-    protected Object getSection() {
+    protected List<String> get() {
         return list;
     }
 }

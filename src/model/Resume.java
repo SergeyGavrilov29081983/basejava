@@ -27,11 +27,11 @@ public class Resume implements Comparable<Resume> {
 
      private EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
 
-    public void addSection(SectionType sectionType, Section section) {
+    public void putSection(SectionType sectionType, Section section) {
         sectionMap.put(sectionType, section);
     }
 
-    public Object getContent(SectionType sectionType) {
+    public Object getSection(SectionType sectionType) {
         return sectionMap.get(sectionType);
     }
 

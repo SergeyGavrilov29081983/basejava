@@ -82,7 +82,15 @@ public class MainArray {
     public static void main(String[] args) {
 
 
-        Resume resume = new Resume("sergey");
+Resume resume = new Resume("sergey");
+Section section = new ReferenceSection();
+section.setContent("12", "13","14");
+
+
+        //section.setContent(null, "1", null);
+
+        System.out.println(section.getContent());
+
 
 
 

@@ -2,15 +2,15 @@ package model;
 
 public class TextSection extends Section {
 
-    private String content;
+    private String description;
 
     @Override
-    protected void setSection(Object content) {
-        this.content = (String) content;
+    protected void set(String data, String description, String reference) {
+        this.description = description;
     }
 
     @Override
-    protected String getSection() {
-        return content;
+    protected String get() {
+        return description;
     }
 }

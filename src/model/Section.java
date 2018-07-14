@@ -2,15 +2,15 @@ package model;
 
 public abstract class Section {
 
-    public void set(Object content) {
-        setSection(content);
+    public void setContent(String data, String description, String reference) {
+        set(data, description, reference);
     }
 
-    public Object get(SectionType sectionType) {
-        return getSection();
+    public Object getContent() {
+        return get();
     }
 
-    protected abstract void setSection(Object content);
+    protected abstract void set(String data, String description, String reference);
 
-    protected abstract Object getSection();
+    protected abstract Object get();
 }
