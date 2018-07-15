@@ -1,10 +1,11 @@
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import model.*;
 import storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
+import java.util.*;
 
 /**
  * Test for com.urise.webapp.storage.storage.ArrayStorage
@@ -82,14 +83,12 @@ public class MainArray {
     public static void main(String[] args) {
 
 
-Resume resume = new Resume("sergey");
-Section section = new ReferenceSection();
-section.setContent("12", "13","14");
+
 
 
         //section.setContent(null, "1", null);
 
-        System.out.println(section.getContent());
+
 
 
 

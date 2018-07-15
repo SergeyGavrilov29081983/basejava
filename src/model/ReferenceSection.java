@@ -12,15 +12,12 @@ public class ReferenceSection extends Section {
     private String data;
     private String description;
 
-
-    @Override
-    protected void set(String data, String description, String reference) {
+    public ReferenceSection(String reference, String data, String description) {
         this.reference = reference;
         this.data = data;
         this.description = description;
     }
 
-    @Override
     protected List<String> get() {
         return new ArrayList<>(Arrays.asList(reference, data, description));
     }

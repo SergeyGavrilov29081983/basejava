@@ -1,19 +1,18 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListSection extends Section {
 
-    private List<String> list = new ArrayList<>();
+    private List<String> list;
 
-    @Override
-    protected void set(String data, String description, String reference) {
-        list.add(description);
+    public ListSection(String[] description) {
+        this.list = Arrays.asList(description);
     }
 
-    @Override
-    protected List<String> get() {
+    public List<String> get() {
         return list;
     }
 }
