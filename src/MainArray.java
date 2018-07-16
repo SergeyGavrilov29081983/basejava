@@ -83,7 +83,8 @@ public class MainArray {
     public static void main(String[] args) {
 
 
-
+Section ref = new ReferenceSection("1", new String[]{"22","22"},"3");
+        System.out.println(((ReferenceSection) ref).get());
 
 
         //section.setContent(null, "1", null);
