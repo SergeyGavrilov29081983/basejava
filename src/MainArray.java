@@ -81,18 +81,10 @@ public class MainArray {
 //    }
 
     public static void main(String[] args) {
-
-
-Section ref = new ReferenceSection("1", new String[]{"22","22"},"3");
-        System.out.println(((ReferenceSection) ref).get());
-
-
-        //section.setContent(null, "1", null);
-
-
-
-
-
-
+        ReferenceObject object = new ReferenceObject("1",  new String[]{"2"}, "3");
+        ReferenceObject object1 = new ReferenceObject("1",  new String[]{"2"}, "3");
+        ReferenceObject object2 = new ReferenceObject("1",  new String[]{"2"}, "3");
+        ReferenceSection referenceSection = new ReferenceSection(new ArrayList<ReferenceObject>(Arrays.asList(object, object1, object2)));
+        System.out.println(referenceSection.get());
     }
 }

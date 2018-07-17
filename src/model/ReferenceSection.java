@@ -6,10 +6,10 @@ import java.util.List;
 
 public class ReferenceSection extends Section {
 
-    List<ReferenceObject> list = new ArrayList<>();
+    private List<ReferenceObject> list;
 
-    public ReferenceSection(String reference, String[] data, String description) {
-        list.add(new ReferenceObject(reference, data, description));
+    public ReferenceSection(List<ReferenceObject> list) {
+        this.list =list;
     }
 
     public List<ReferenceObject> get() {
