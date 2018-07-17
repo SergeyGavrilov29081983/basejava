@@ -8,7 +8,7 @@ public class TextSection extends Section {
         this.description = description;
     }
 
-    protected String get() {
+    public String get() {
         return description;
     }
 }

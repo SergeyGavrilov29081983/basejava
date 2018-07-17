@@ -26,10 +26,10 @@ public class Resume implements Comparable<Resume> {
     }
 
     private EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
-    private EnumMap<Contacts, Section> contactsMap = new EnumMap<>(Contacts.class);
+    private EnumMap<Contacts, String> contactsMap = new EnumMap<>(Contacts.class);
 
-    public void putContact(Contacts contact, Section section) {
-        contactsMap.put(contact, section);
+    public void putContact(Contacts contact, String text) {
+        contactsMap.put(contact, text);
     }
 
     public void getContact(Contacts contact) {
