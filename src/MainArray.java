@@ -1,11 +1,8 @@
-import com.sun.org.apache.xerces.internal.xs.StringList;
 import model.*;
 import storage.ArrayStorage;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Test for com.urise.webapp.storage.storage.ArrayStorage
@@ -81,10 +78,21 @@ public class MainArray {
 //    }
 
     public static void main(String[] args) {
-        ReferenceObject object = new ReferenceObject("1",  new String[]{"2"}, "3");
-        ReferenceObject object1 = new ReferenceObject("1",  new String[]{"2"}, "3");
-        ReferenceObject object2 = new ReferenceObject("1",  new String[]{"2"}, "3");
-        ReferenceSection referenceSection = new ReferenceSection(new ArrayList<ReferenceObject>(Arrays.asList(object, object1, object2)));
-        System.out.println(referenceSection.get());
+        Resume resume = new Resume("Gavrillov Sergey");
+        resume.putContact(Contacts.PHONE, "89005620780");
+        resume.putContact(Contacts.SKYPE, "sergo77777778");
+        resume.putContact(Contacts.EMAIL, "sierghiei_gavriov_1983@mail.ru");
+        resume.putContact(Contacts.LINKEDIN, " ");
+        resume.putContact(Contacts.GITHUB, "sergo7777777");
+        resume.putContact(Contacts.STACKOVERFLOW, " ");
+        resume.putContact(Contacts.HOMEPAGE, " ");
+
+        resume.putSection( SectionType.PERSONAL, new TextSection(" "));
+        resume.putSection(SectionType.OBJECTIVE, new TextSection(" "));
+        resume.putSection(SectionType.ACHIEVEMENT, new ListSection(new String[]{"", "", ""}));
+        resume.putSection(SectionType.QUALIFICATIONS, new ListSection(new String[]{"", "", ""}));
+        resume.putSection(SectionType.EXPERIENCE, new ReferenceSection(new ArrayList<>(Collections.singletonList(new ReferenceObject("", "1", "2", "")))));
+        resume.putSection(SectionType.EDUCATION, new ReferenceSection(new ArrayList<>(Collections.singletonList(new ReferenceObject("", "1", "2", "")))));
     }
+
 }

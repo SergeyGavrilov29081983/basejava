@@ -10,11 +10,11 @@ public enum Contacts {
     STACKOVERFLOW("StackOverFlow"),
     HOMEPAGE("Homepage");
 
-   private String title;
+    private String title;
 
-   Contacts(String title) {
-       this.title = title;
-   }
+    Contacts(String title) {
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;

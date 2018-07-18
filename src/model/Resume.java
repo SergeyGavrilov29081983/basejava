@@ -1,7 +1,6 @@
 package model;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,6 +12,8 @@ public class Resume implements Comparable<Resume> {
     // Unique identifier
     private final String uuid;
     private final String fullName;
+    private final EnumMap<Contacts, String> contactsMap = new EnumMap<>(Contacts.class);
+    private final EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -24,9 +25,6 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
         this.uuid = uuid;
     }
-
-    private EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
-    private EnumMap<Contacts, String> contactsMap = new EnumMap<>(Contacts.class);
 
     public void putContact(Contacts contact, String text) {
         contactsMap.put(contact, text);
