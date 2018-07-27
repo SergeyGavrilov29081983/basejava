@@ -1,8 +1,8 @@
-import model.*;
+import model.Contacts;
+import model.Resume;
+import model.SectionType;
+import model.TextSection;
 import storage.ArrayStorage;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Test for com.urise.webapp.storage.storage.ArrayStorage
@@ -89,10 +89,8 @@ public class MainArray {
 
         resume.putSection( SectionType.PERSONAL, new TextSection(" "));
         resume.putSection(SectionType.OBJECTIVE, new TextSection(" "));
-        resume.putSection(SectionType.ACHIEVEMENT, new ListSection(new String[]{"", "", ""}));
-        resume.putSection(SectionType.QUALIFICATIONS, new ListSection(new String[]{"", "", ""}));
-        resume.putSection(SectionType.EXPERIENCE, new ReferenceSection(new ArrayList<>(Collections.singletonList(new ReferenceObject("", "1", "2", "")))));
-        resume.putSection(SectionType.EDUCATION, new ReferenceSection(new ArrayList<>(Collections.singletonList(new ReferenceObject("", "1", "2", "")))));
+
     }
+
 
 }

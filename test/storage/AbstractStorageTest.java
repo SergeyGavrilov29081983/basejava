@@ -1,14 +1,14 @@
 package storage;
 
-import exceptions.*;
-import model.Resume;
+import exceptions.ExistStorageException;
+import exceptions.NotExistStorageException;
+import model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Arrays;
 
 public abstract class AbstractStorageTest {
 
@@ -32,7 +32,23 @@ public abstract class AbstractStorageTest {
         RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
         RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
         RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
+
+        RESUME_1.putContact(Contacts.PHONE, "89005620780");
+        RESUME_1.putContact(Contacts.SKYPE, "sergo7777778");
+        RESUME_1.putContact(Contacts.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
+        RESUME_1.putContact(Contacts.LINKEDIN, "");
+        RESUME_1.putContact(Contacts.GITHUB, "sergo777777");
+        RESUME_1.putContact(Contacts.STACKOVERFLOW, "");
+        RESUME_1.putContact(Contacts.HOMEPAGE, "");
+        RESUME_1.putSection(SectionType.PERSONAL, new TextSection("a"));
+        RESUME_1.putSection(SectionType.OBJECTIVE, new TextSection("b"));
+        RESUME_1.putSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1","2","3")));
+        RESUME_1.putSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1","2","3")));
+        RESUME_1.putSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(new Organization("1", "2", "3", Arrays.asList(new DateAndDescription(LocalDate.of(1, 2, 3), LocalDate.of(1, 2 , 3),"e"))))));
+        RESUME_1.putSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(new Organization("1", "2", "3", Arrays.asList(new DateAndDescription(LocalDate.of(1, 2, 3), LocalDate.of(1, 2 , 3),"e"))))));
     }
+
+
 
     protected Storage storage;
 
@@ -112,5 +128,11 @@ public abstract class AbstractStorageTest {
         Assert.assertEquals(expectedStorage[2], storage.get(UUID_3));
         Assert.assertEquals(3, storage.size());
         Assert.assertArrayEquals(expectedStorage, storage.getAllSorted().toArray());
+    }
+
+    @Test
+    public void putContact() {
+        RESUME_1.putContact(Contacts.PHONE, "1");
+        Assert.assertEquals("1" ,RESUME_1.getContact(Contacts.PHONE));
     }
 }

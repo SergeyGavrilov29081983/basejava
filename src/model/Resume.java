@@ -30,15 +30,15 @@ public class Resume implements Comparable<Resume> {
         contactsMap.put(contact, text);
     }
 
-    public void getContact(Contacts contact) {
-        contactsMap.get(contact);
+    public String getContact(Contacts contact) {
+        return contactsMap.get(contact);
     }
 
     public void putSection(SectionType sectionType, Section section) {
         sectionMap.put(sectionType, section);
     }
 
-    public Object getSection(SectionType sectionType) {
+    public Section getSection(SectionType sectionType) {
         return sectionMap.get(sectionType);
     }
 
