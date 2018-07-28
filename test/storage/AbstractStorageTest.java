@@ -33,19 +33,19 @@ public abstract class AbstractStorageTest {
         RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
         RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
 
-        RESUME_1.putContact(Contacts.PHONE, "89005620780");
-        RESUME_1.putContact(Contacts.SKYPE, "sergo7777778");
-        RESUME_1.putContact(Contacts.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
-        RESUME_1.putContact(Contacts.LINKEDIN, "");
-        RESUME_1.putContact(Contacts.GITHUB, "sergo777777");
-        RESUME_1.putContact(Contacts.STACKOVERFLOW, "");
-        RESUME_1.putContact(Contacts.HOMEPAGE, "");
+        RESUME_1.putContact(ContactType.PHONE, "89005620780");
+        RESUME_1.putContact(ContactType.SKYPE, "sergo7777778");
+        RESUME_1.putContact(ContactType.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
+        RESUME_1.putContact(ContactType.LINKEDIN, "");
+        RESUME_1.putContact(ContactType.GITHUB, "sergo777777");
+        RESUME_1.putContact(ContactType.STACKOVERFLOW, "");
+        RESUME_1.putContact(ContactType.HOMEPAGE, "");
         RESUME_1.putSection(SectionType.PERSONAL, new TextSection("a"));
         RESUME_1.putSection(SectionType.OBJECTIVE, new TextSection("b"));
         RESUME_1.putSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1","2","3")));
         RESUME_1.putSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1","2","3")));
-        RESUME_1.putSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(new Organization("1", "2", "3", Arrays.asList(new DateAndDescription(LocalDate.of(1, 2, 3), LocalDate.of(1, 2 , 3),"e"))))));
-        RESUME_1.putSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(new Organization("1", "2", "3", Arrays.asList(new DateAndDescription(LocalDate.of(1, 2, 3), LocalDate.of(1, 2 , 3),"e"))))));
+        RESUME_1.putSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b"))))));
+        RESUME_1.putSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b"))))));
     }
 
 
@@ -132,7 +132,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void putContact() {
-        RESUME_1.putContact(Contacts.PHONE, "1");
-        Assert.assertEquals("1" ,RESUME_1.getContact(Contacts.PHONE));
+        RESUME_1.putContact(ContactType.PHONE, "1");
+        Assert.assertEquals("1" ,RESUME_1.getContact(ContactType.PHONE));
     }
 }

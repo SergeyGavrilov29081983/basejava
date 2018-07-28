@@ -1,4 +1,4 @@
-import model.Contacts;
+import model.ContactType;
 import model.Resume;
 import model.SectionType;
 import model.TextSection;
@@ -79,13 +79,13 @@ public class MainArray {
 
     public static void main(String[] args) {
         Resume resume = new Resume("Gavrillov Sergey");
-        resume.putContact(Contacts.PHONE, "89005620780");
-        resume.putContact(Contacts.SKYPE, "sergo77777778");
-        resume.putContact(Contacts.EMAIL, "sierghiei_gavriov_1983@mail.ru");
-        resume.putContact(Contacts.LINKEDIN, " ");
-        resume.putContact(Contacts.GITHUB, "sergo7777777");
-        resume.putContact(Contacts.STACKOVERFLOW, " ");
-        resume.putContact(Contacts.HOMEPAGE, " ");
+        resume.putContact(ContactType.PHONE, "89005620780");
+        resume.putContact(ContactType.SKYPE, "sergo77777778");
+        resume.putContact(ContactType.EMAIL, "sierghiei_gavriov_1983@mail.ru");
+        resume.putContact(ContactType.LINKEDIN, " ");
+        resume.putContact(ContactType.GITHUB, "sergo7777777");
+        resume.putContact(ContactType.STACKOVERFLOW, " ");
+        resume.putContact(ContactType.HOMEPAGE, " ");
 
         resume.putSection( SectionType.PERSONAL, new TextSection(" "));
         resume.putSection(SectionType.OBJECTIVE, new TextSection(" "));

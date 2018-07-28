@@ -32,21 +32,16 @@ public class MainFile {
 
     }
 
-    private static void showProjectTree(File file){
-        if (!file.isDirectory()){
+    private static void showProjectTree(File file) {
+        if (!file.isDirectory()) {
             System.out.println(file.getName());
         }
-        if (file.isDirectory()){
+        if (file.isDirectory()) {
             try {
                 File[] files = file.listFiles();
                 assert files != null;
-                for (File f: files
-                     ) {
-                    if (!f.isDirectory()) {
-                        System.out.println(f.getName());
-                    }
-                    System.out.println(f.getName());
-                    showProjectTree(f);
+                for (File file1 : files) {
+                    showProjectTree(file1);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

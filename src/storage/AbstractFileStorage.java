@@ -5,6 +5,7 @@ import model.Resume;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,9 +31,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void saveElement(Resume resume, File file) {
+
         try {
             file.createNewFile();
-            doWrite(resume, file);
+            updateElement(resume, file);
         } catch (IOException e) {
             throw new StorageException("IO error", file.getName(), e);
         }
@@ -49,12 +51,19 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getElement(File file) {
-        return doRead(file);
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new StorageException("IO error", file.getName(), e);
+        }
     }
 
     @Override
     protected void deleteElement(File file) {
         file.delete();
+        if (file.exists()) {
+            throw new StorageException("IO error", file.getName());
+        }
     }
 
     @Override
@@ -64,23 +73,37 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getStorage() {
-        return null;
+        List<Resume> resumes = new ArrayList<>();
+        for (File file : getFiles()
+                ) {
+            resumes.add(getElement(file));
+        }
+        return resumes;
     }
 
     @Override
     public void clear() {
-        for (File file: directory.listFiles()
-             ) {
-                file.delete();
+        for (File file : getFiles()
+                ) {
+            deleteElement(file);
         }
     }
 
+
     @Override
     public int size() {
-        return directory.listFiles().length;
+        return getFiles().length;
+    }
+
+    private File[] getFiles() {
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("directory is empty", directory.getName());
+        }
+        return files;
     }
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
 
-    protected abstract Resume doRead(File file);
+    protected abstract Resume doRead(File file) throws IOException;
 }

@@ -7,12 +7,10 @@ public class Organization {
 
     private final List<DateAndDescription> dateAndDescriptions;
     private final Link homepage;
-    private final String title;
 
-    public Organization(String name, String url, String title, List<DateAndDescription> dateAndDescriptions) {
-        Objects.requireNonNull(title, "title must be not null!");
+
+    public Organization(String name, String url, List<DateAndDescription> dateAndDescriptions) {
         this.homepage = new Link(name, url);
-        this.title = title;
         this.dateAndDescriptions = dateAndDescriptions;
     }
 
@@ -21,7 +19,6 @@ public class Organization {
         return "Organization{" +
                 "dateAndDescriptions=" + dateAndDescriptions +
                 ", homepage=" + homepage +
-                ", title='" + title + '\'' +
                 '}';
     }
 
@@ -31,13 +28,12 @@ public class Organization {
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
         return Objects.equals(dateAndDescriptions, that.dateAndDescriptions) &&
-                Objects.equals(homepage, that.homepage) &&
-                Objects.equals(title, that.title);
+                Objects.equals(homepage, that.homepage);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(dateAndDescriptions, homepage, title);
+        return Objects.hash(dateAndDescriptions, homepage);
     }
 }
