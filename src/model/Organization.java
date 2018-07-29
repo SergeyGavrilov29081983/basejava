@@ -7,13 +7,14 @@ public class Organization {
 
     private final List<DateAndDescription> dateAndDescriptions;
     private final Link homepage;
-    private final String description;
+    private final String title;
 
 
-    public Organization(String name, String url, List<DateAndDescription> dateAndDescriptions, String description) {
+    public Organization(String name, String url, List<DateAndDescription> dateAndDescriptions, String title) {
+        Objects.requireNonNull(title, " title must be not null!");
         this.homepage = new Link(name, url);
         this.dateAndDescriptions = dateAndDescriptions;
-        this.description = description;
+        this.title = title;
     }
 
     @Override
