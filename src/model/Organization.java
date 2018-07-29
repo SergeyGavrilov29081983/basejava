@@ -7,11 +7,13 @@ public class Organization {
 
     private final List<DateAndDescription> dateAndDescriptions;
     private final Link homepage;
+    private final String description;
 
 
-    public Organization(String name, String url, List<DateAndDescription> dateAndDescriptions) {
+    public Organization(String name, String url, List<DateAndDescription> dateAndDescriptions, String description) {
         this.homepage = new Link(name, url);
         this.dateAndDescriptions = dateAndDescriptions;
+        this.description = description;
     }
 
     @Override

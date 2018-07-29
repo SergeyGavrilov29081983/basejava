@@ -60,8 +60,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void deleteElement(File file) {
-        file.delete();
-        if (file.exists()) {
+        boolean isDeleted = file.delete();
+        if (!isDeleted) {
             throw new StorageException("IO error", file.getName());
         }
     }
@@ -74,8 +74,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected List<Resume> getStorage() {
         List<Resume> resumes = new ArrayList<>();
-        for (File file : getFiles()
-                ) {
+        for (File file : getFiles()) {
             resumes.add(getElement(file));
         }
         return resumes;
@@ -83,8 +82,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        for (File file : getFiles()
-                ) {
+        for (File file : getFiles()) {
             deleteElement(file);
         }
     }

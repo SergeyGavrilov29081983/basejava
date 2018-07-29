@@ -44,8 +44,8 @@ public abstract class AbstractStorageTest {
         RESUME_1.putSection(SectionType.OBJECTIVE, new TextSection("b"));
         RESUME_1.putSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1","2","3")));
         RESUME_1.putSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1","2","3")));
-        RESUME_1.putSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b"))))));
-        RESUME_1.putSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b"))))));
+        RESUME_1.putSection(SectionType.EXPERIENCE, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b")), ""))));
+        RESUME_1.putSection(SectionType.EDUCATION, new OrganizationSection(Arrays.asList(new Organization("1", "2", Arrays.asList(new DateAndDescription(LocalDate.of(1,2,3), LocalDate.of(1,2,3), "a", "b")), ""))));
     }
 
 
