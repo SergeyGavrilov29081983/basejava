@@ -2,16 +2,15 @@ import model.ContactType;
 import model.Resume;
 import model.SectionType;
 import model.TextSection;
-import storage.ArrayStorage;
 
 /**
  * Test for com.urise.webapp.storage.storage.ArrayStorage
  */
 public class MainArray {
-    private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    //private final static ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
 //    public static void main(String[] args) throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//        BufferedReader reader = new BufferedReader(new InaddStreamReader(System.in));
 //        Resume r;
 //        while (true) {
 //            System.out.print("Введите одну из команд - (list | save uuid | update uuid | delete uuid | get uuid | clear | exit): ");
@@ -79,16 +78,16 @@ public class MainArray {
 
     public static void main(String[] args) {
         Resume resume = new Resume("Gavrillov Sergey");
-        resume.putContact(ContactType.PHONE, "89005620780");
-        resume.putContact(ContactType.SKYPE, "sergo77777778");
-        resume.putContact(ContactType.EMAIL, "sierghiei_gavriov_1983@mail.ru");
-        resume.putContact(ContactType.LINKEDIN, " ");
-        resume.putContact(ContactType.GITHUB, "sergo7777777");
-        resume.putContact(ContactType.STACKOVERFLOW, " ");
-        resume.putContact(ContactType.HOMEPAGE, " ");
+        resume.addContact(ContactType.PHONE, "89005620780");
+        resume.addContact(ContactType.SKYPE, "sergo77777778");
+        resume.addContact(ContactType.EMAIL, "sierghiei_gavriov_1983@mail.ru");
+        resume.addContact(ContactType.LINKEDIN, " ");
+        resume.addContact(ContactType.GITHUB, "sergo7777777");
+        resume.addContact(ContactType.STACKOVERFLOW, " ");
+        resume.addContact(ContactType.HOMEPAGE, " ");
 
-        resume.putSection( SectionType.PERSONAL, new TextSection(" "));
-        resume.putSection(SectionType.OBJECTIVE, new TextSection(" "));
+        resume.addSection( SectionType.PERSONAL, new TextSection(" "));
+        resume.addSection(SectionType.OBJECTIVE, new TextSection(" "));
 
     }
 

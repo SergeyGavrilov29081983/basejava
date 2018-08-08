@@ -28,23 +28,22 @@ public class MainFile {
         }*/
 
         String path = "C:\\Users\\Sergey\\basejava";
-        showProjectTree(new File(path));
+        printDirectoryDeeply(new File(path));
 
     }
 
-    private static void showProjectTree(File file) {
-        if (!file.isDirectory()) {
-            System.out.println(file.getName());
-        }
-        if (file.isDirectory()) {
-            try {
-                File[] files = file.listFiles();
-                assert files != null;
-                for (File file1 : files) {
-                    showProjectTree(file1);
+    private static void printDirectoryDeeply(File dir) {
+        String backspace = " ";
+        File[] files = dir.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    System.out.println(backspace + "File: " + file.getName());
+                } else if (file.isDirectory()) {
+                    System.out.println(backspace + "Directory: " + file.getName());
+                    backspace += " ";
+                    printDirectoryDeeply(file);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }

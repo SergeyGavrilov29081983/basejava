@@ -80,7 +80,3 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract List<Resume> getStorage();
 }
-
-
-
-
