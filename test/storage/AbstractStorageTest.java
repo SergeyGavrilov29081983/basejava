@@ -50,8 +50,6 @@ public abstract class AbstractStorageTest {
 
     }
 
-    
-
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
