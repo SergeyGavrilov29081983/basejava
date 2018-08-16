@@ -8,7 +8,10 @@ public class ListSection extends Section {
 
     private static final long serialVersionUID = 1L;
 
-    private final List<String> list;
+    private List<String> list;
+
+    public ListSection() {
+    }
 
     public ListSection(String... list) {
         this(Arrays.asList(list));
@@ -19,7 +22,7 @@ public class ListSection extends Section {
         this.list = list;
     }
 
-    public List<String> get() {
+    public List<String> getList() {
         return list;
     }
 

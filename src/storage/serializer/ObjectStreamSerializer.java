@@ -1,13 +1,14 @@
-package storage;
+package storage.serializer;
 
 import exceptions.StorageException;
 import model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamStorage implements Serializer {
 
-   @Override
+public class ObjectStreamSerializer implements Serializer {
+
+    @Override
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
             oos.writeObject(resume);
@@ -23,3 +24,4 @@ public class ObjectStreamStorage implements Serializer {
         }
     }
 }
+

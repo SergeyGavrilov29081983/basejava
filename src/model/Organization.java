@@ -1,5 +1,8 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,13 +14,18 @@ import java.util.Objects;
 import static util.DateUtil.NOW;
 import static util.DateUtil.of;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private List<Position> positions = new ArrayList<>();
-    private final Link homePage;
-    private final String title;
+    private Link homePage;
+    private String title;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, String title, Position... positions) {
         this(new Link(name, url), title, Arrays.asList(positions));
@@ -27,6 +35,18 @@ public class Organization implements Serializable {
         this.homePage = homePage;
         this.positions = positions;
         this.title = title;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public Link getHomePage() {
+        return homePage;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     @Override
@@ -54,11 +74,16 @@ public class Organization implements Serializable {
         return Objects.hash(positions, homePage, title);
     }
 
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String description;
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private String title;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);

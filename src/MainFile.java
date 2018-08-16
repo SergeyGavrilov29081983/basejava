@@ -33,15 +33,14 @@ public class MainFile {
     }
 
     private static void printDirectoryDeeply(File dir) {
-        String backspace = " ";
+
         File[] files = dir.listFiles();
         if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
-                    System.out.println(backspace + "File: " + file.getName());
+                    System.out.println( "File: " + file.getName());
                 } else if (file.isDirectory()) {
-                    System.out.println(backspace + "Directory: " + file.getName());
-                    backspace += " ";
+                    System.out.println("Directory: " + file.getName());
                     printDirectoryDeeply(file);
                 }
             }

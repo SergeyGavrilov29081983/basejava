@@ -2,18 +2,19 @@ package storage;
 
 import exceptions.StorageException;
 import model.Resume;
+import storage.serializer.Serializer;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
 
     private File directory;
     private Serializer serializer;
 
-    public AbstractFileStorage(File directory, Serializer serializer) {
+    public FileStorage(File directory, Serializer serializer) {
         Objects.requireNonNull(directory, "directory must be not null!");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + "is not directory");

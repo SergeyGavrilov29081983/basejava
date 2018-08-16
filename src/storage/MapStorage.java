@@ -15,7 +15,7 @@ public class MapStorage extends AbstractStorage<Resume> {
 
     @Override
     protected void updateElement(Resume resume, Resume key) {
-        map.put(resume.getUuid(), key);
+        map.put(resume.getUuid(), resume);
     }
 
     @Override

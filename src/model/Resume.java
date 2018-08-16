@@ -1,22 +1,31 @@
 package model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * com.urise.webapp.model.model.Resume class
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     // Unique identifier
-    private final String uuid;
-    private final String fullName;
-    private final EnumMap<ContactType, String> contactTypeMap = new EnumMap<>(ContactType.class);
-    private final EnumMap<SectionType, Section> sectionMap = new EnumMap<>(SectionType.class);
+    private String uuid;
+    private String fullName;
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -30,19 +39,19 @@ public class Resume implements Comparable<Resume>, Serializable {
     }
 
     public void addContact(ContactType contact, String text) {
-        contactTypeMap.put(contact, text);
+        contacts.put(contact, text);
     }
 
     public String getContact(ContactType contact) {
-        return contactTypeMap.get(contact);
+        return contacts.get(contact);
     }
 
     public void addSection(SectionType sectionType, Section section) {
-        sectionMap.put(sectionType, section);
+        sections.put(sectionType, section);
     }
 
     public Section getSection(SectionType sectionType) {
-        return sectionMap.get(sectionType);
+        return sections.get(sectionType);
     }
 
     @Override
@@ -58,6 +67,14 @@ public class Resume implements Comparable<Resume>, Serializable {
         return fullName;
     }
 
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,14 +82,14 @@ public class Resume implements Comparable<Resume>, Serializable {
         Resume resume = (Resume) o;
         return Objects.equals(uuid, resume.uuid) &&
                 Objects.equals(fullName, resume.fullName) &&
-                Objects.equals(contactTypeMap, resume.contactTypeMap) &&
-                Objects.equals(sectionMap, resume.sectionMap);
+                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(uuid, fullName, contactTypeMap, sectionMap);
+        return Objects.hash(uuid, fullName, contacts, sections);
     }
 
     @Override
