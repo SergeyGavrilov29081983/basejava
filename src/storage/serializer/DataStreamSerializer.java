@@ -3,6 +3,7 @@ package storage.serializer;
 import model.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -10,90 +11,59 @@ import java.util.Map;
 public class DataStreamSerializer implements Serializer {
 
     @Override
-    public void doWrite(Resume r, OutputStream os) throws IOException {
+    public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (DataOutputStream dos = new DataOutputStream(os)) {
-            dos.writeUTF(r.getUuid());
-            dos.writeUTF(r.getFullName());
-            Map<ContactType, String> contacts = r.getContacts();
+            dos.writeUTF(resume.getUuid());
+            dos.writeUTF(resume.getFullName());
+            Map<ContactType, String> contacts = resume.getContacts();
             dos.writeInt(contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
-            Map<SectionType, Section> sections = r.getSections();
-            dos.write(sections.size());
+
+            Map<SectionType, Section> sections = resume.getSections();
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 SectionType type = entry.getKey();
-                if (type == SectionType.PERSONAL) {
-                    dos.writeUTF(entry.getKey().name());
-                    TextSection personal = (TextSection) entry.getValue();
-                    dos.writeUTF(personal.getContent());
-                }
-                if (type == SectionType.OBJECTIVE) {
-                    dos.writeUTF(entry.getKey().name());
-                    TextSection objective = (TextSection) entry.getValue();
-                    dos.writeUTF(objective.getContent());
-                }
-                if (type == SectionType.ACHIEVEMENT) {
-                    ListSection achievement = (ListSection) entry.getValue();
-                    List<String> list = achievement.getList();
-                    dos.write(list.size());
-                    for (String item : list) {
-                        dos.writeUTF(item);
-                    }
-                    dos.writeUTF(entry.getKey().name());
-                }
-                if (type == SectionType.QUALIFICATIONS) {
-                    ListSection qualifications = (ListSection) entry.getValue();
-                    List<String> list = qualifications.getList();
-                    dos.write(list.size());
-                    for (String item : list) {
-                        dos.writeUTF(item);
-                    }
-                    dos.writeUTF(entry.getKey().name());
-                }
-                if (type == SectionType.EXPERIENCE) {
-                    dos.writeUTF(entry.getKey().name());
-                    OrganizationSection experience = (OrganizationSection) entry.getValue();
-                    List<Organization> list = experience.getOrganizations();
-                    dos.write(list.size());
-                    for (Organization organization : list) {
-                        Link homepage = organization.getHomePage();
-                        dos.writeUTF(homepage.getName());
-                        dos.writeUTF(homepage.getUrl());
-                        dos.writeUTF(organization.getTitle());
-                        List<Organization.Position> positions = organization.getPositions();
-                        dos.write(positions.size());
-                        for (Organization.Position position : positions) {
-                            dos.write(position.getStartDate().getMonthValue());
-                            dos.write(position.getStartDate().getYear());
-                            dos.write(position.getEndDate().getMonthValue());
-                            dos.write(position.getEndDate().getYear());
-                            dos.writeUTF(position.getTitle());
-                            dos.writeUTF(position.getDescription());
+                Section section = entry.getValue();
+                dos.writeUTF(entry.getKey().name());
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        dos.writeUTF(((TextSection) section).getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        int size = ((ListSection) section).getList().size();
+                        dos.write(size);
+                        List<String> list = ((ListSection) section).getList();
+                        for (String item : list) {
+                            dos.writeUTF(item);
                         }
-                    }
-                }
-                if (type == SectionType.EDUCATION) {
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Organization> organizations = ((OrganizationSection) section).getOrganizations();
+                        dos.write(organizations.size());
+                        for (Organization organization : organizations) {
+                            List<Organization.Position> positions = organization.getPositions();
+                            dos.write(positions.size());
+                            for (Organization.Position position : positions) {
+                                dos.writeInt(position.getStartDate().getMonthValue());
+                                dos.writeInt(position.getStartDate().getYear());
+                                dos.writeInt(position.getEndDate().getMonthValue());
+                                dos.writeInt(position.getEndDate().getYear());
+                                dos.writeUTF(position.getTitle());
+                                dos.writeUTF(position.getDescription());
+                            }
 
-                    OrganizationSection education = (OrganizationSection) entry.getValue();
-                    List<Organization> list = education.getOrganizations();
-                    for (Organization organization : list) {
-                        Link homepage = organization.getHomePage();
-                        dos.writeUTF(homepage.getName());
-                        dos.writeUTF(homepage.getUrl());
-                        dos.writeUTF(organization.getTitle());
-                        List<Organization.Position> positions = organization.getPositions();
-                        for (Organization.Position position : positions) {
-                            dos.write(position.getStartDate().getMonthValue());
-                            dos.write(position.getStartDate().getYear());
-                            dos.write(position.getEndDate().getMonthValue());
-                            dos.write(position.getEndDate().getYear());
-                            dos.writeUTF(position.getTitle());
-                            dos.writeUTF(position.getDescription());
+
+                            dos.writeUTF(organization.getHomePage().getName());
+                            dos.writeUTF(organization.getHomePage().getUrl());
+                            dos.writeUTF(organization.getTitle());
+
                         }
-                    }
-                    dos.writeUTF(entry.getKey().name());
+                        break;
                 }
             }
         }
@@ -109,46 +79,43 @@ public class DataStreamSerializer implements Serializer {
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
-
-            resume.addSection(SectionType.valueOf(dis.readUTF()), new TextSection(dis.readUTF()));
-            resume.addSection(SectionType.valueOf(dis.readUTF()), new TextSection(dis.readUTF()));
-
-            List<String> achievement = new ArrayList<>();
-            int count = dis.readInt();
-            for (int i = 0; i < count; i++) {
-                achievement.add(dis.readUTF());
-            }
-            resume.addSection(SectionType.valueOf(dis.readUTF()), new ListSection(achievement));
-
-            List<String> qualifications = new ArrayList<>();
-            int count1 = dis.readInt();
-            for (int i = 0; i < count1; i++) {
-                achievement.add(dis.readUTF());
-            }
-            resume.addSection(SectionType.valueOf(dis.readUTF()), new ListSection(qualifications));
-
-            int count2 = dis.readInt();
-            for (int i = 0; i < count2; i++) {
-                Link link = new Link(dis.readUTF(), dis.readUTF());
-                String title = dis.readUTF();
-                int positionCount = dis.readInt();
-                for (int k = 0; k < positionCount; i++) {
-                    int month = dis.readInt();
-                    int year = dis.readInt();
-                    int monthEnd = dis.readInt();
-                    int yearEnd = dis.readInt();
-                    String titlePos = dis.readUTF();
-                    String description = dis.readUTF();
-
+            Map<SectionType, Section> sections = resume.getSections();
+            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
+                SectionType type = entry.getKey();
+                switch (type) {
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        resume.addSection(type, new TextSection(dis.readUTF()));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        List<String> items = new ArrayList<>();
+                        for (int i = 0; i < dis.readInt(); i++) {
+                            items.add(dis.readUTF());
+                        }
+                        resume.addSection(type, new ListSection(items));
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Organization> organizations = new ArrayList<>();
+                        for (int i = 0; i < dis.readInt(); i++) {
+                            List<Organization.Position> positions = new ArrayList<>();
+                            for (int k = 0; k < dis.readInt(); i++) {
+                                positions.add(new Organization.Position(LocalDate.of(dis.readInt(), dis.readInt(), 1), LocalDate.of(dis.readInt(), dis.readInt(), 1), dis.readUTF(), dis.readUTF()));
+                            }
+                            organizations.add(new Organization(new Link(dis.readUTF(), dis.readUTF()), dis.readUTF(), positions));
+                        }
+                        resume.addSection(type, new OrganizationSection(organizations));
+                        break;
                 }
             }
-
-            resume.addSection(SectionType.valueOf(dis.readUTF()), new OrganizationSection());
-
-
-
-
             return resume;
+
         }
     }
 }
+
+
+
+
+
