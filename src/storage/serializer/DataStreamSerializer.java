@@ -5,6 +5,7 @@ import model.*;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +35,7 @@ public class DataStreamSerializer implements Serializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        int size = ((ListSection) section).getList().size();
-                        dos.write(size);
-                        List<String> list = ((ListSection) section).getList();
-                        for (String item : list) {
-                            dos.writeUTF(item);
-                        }
+                        writeCollection(dos, ((ListSection) section).getList(), (dos::writeUTF));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -79,6 +75,7 @@ public class DataStreamSerializer implements Serializer {
             for (int i = 0; i < size; i++) {
                 resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
+
             Map<SectionType, Section> sections = resume.getSections();
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 SectionType type = entry.getKey();
@@ -89,11 +86,7 @@ public class DataStreamSerializer implements Serializer {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        List<String> items = new ArrayList<>();
-                        for (int i = 0; i < dis.readInt(); i++) {
-                            items.add(dis.readUTF());
-                        }
-                        resume.addSection(type, new ListSection(items));
+                        resume.addSection(type, new ListSection(reader(dis, dis::readUTF)));
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
@@ -113,6 +106,31 @@ public class DataStreamSerializer implements Serializer {
 
         }
     }
+
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, WriteElement<T> writeElement) throws IOException {
+        dos.write(collection.size());
+        for (T elem : collection) {
+            writeElement.write(elem);
+        }
+
+    }
+
+    private <T> List<T> reader(DataInputStream dis, ReadElement<T> reader) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            list.add(reader.read());
+        }
+        return list;
+    }
+}
+
+interface WriteElement<T> {
+    void write(T t) throws IOException;
+}
+
+interface ReadElement<T> {
+    T read() throws IOException;
 }
 
 
