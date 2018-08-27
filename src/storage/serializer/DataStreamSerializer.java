@@ -17,17 +17,18 @@ public class DataStreamSerializer implements Serializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            dos.writeInt(contacts.size());
+            //dos.writeInt(contacts.size());
             for (Map.Entry<ContactType, String> entry : contacts.entrySet()) {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
 
             Map<SectionType, Section> sections = resume.getSections();
+           // dos.write(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
                 SectionType type = entry.getKey();
                 Section section = entry.getValue();
-                dos.writeUTF(entry.getKey().name());
+                dos.writeUTF(type.name());
                 switch (type) {
                     case PERSONAL:
                     case OBJECTIVE:
@@ -39,30 +40,31 @@ public class DataStreamSerializer implements Serializer {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
-                        List<Organization> organizations = ((OrganizationSection) section).getOrganizations();
-                        dos.write(organizations.size());
-                        for (Organization organization : organizations) {
-                            List<Organization.Position> positions = organization.getPositions();
-                            dos.write(positions.size());
-                            for (Organization.Position position : positions) {
-                                dos.writeInt(position.getStartDate().getMonthValue());
-                                dos.writeInt(position.getStartDate().getYear());
-                                dos.writeInt(position.getEndDate().getMonthValue());
-                                dos.writeInt(position.getEndDate().getYear());
-                                dos.writeUTF(position.getTitle());
-                                dos.writeUTF(position.getDescription());
-                            }
+                        writeCollection(dos, ((OrganizationSection) section).getOrganizations(), org -> {
+                            dos.writeUTF(org.getHomePage().getName());
+                            dos.writeUTF(org.getHomePage().getUrl());
+                            writeCollection(dos, org.getPositions(), pos -> {
 
-
-                            dos.writeUTF(organization.getHomePage().getName());
-                            dos.writeUTF(organization.getHomePage().getUrl());
-                            dos.writeUTF(organization.getTitle());
-
-                        }
+                               writeLocalDate(dos, pos.getStartDate());
+                               writeLocalDate(dos, pos.getEndDate());
+                                dos.writeUTF(pos.getTitle());
+                                dos.writeUTF(pos.getDescription());
+                            });
+                        });
                         break;
                 }
             }
         }
+    }
+
+
+    private void writeLocalDate(DataOutputStream dos, LocalDate ld) throws IOException {
+        dos.writeInt(ld.getYear());
+        dos.writeInt(ld.getMonth().getValue());
+    }
+
+    private LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), dis.readInt(), 1);
     }
 
     @Override
@@ -71,51 +73,38 @@ public class DataStreamSerializer implements Serializer {
             String uuid = dis.readUTF();
             String fullName = dis.readUTF();
             Resume resume = new Resume(uuid, fullName);
-            int size = dis.readInt();
-            for (int i = 0; i < size; i++) {
-                resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-            }
-
-            Map<SectionType, Section> sections = resume.getSections();
-            for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
-                SectionType type = entry.getKey();
-                switch (type) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        resume.addSection(type, new TextSection(dis.readUTF()));
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        resume.addSection(type, new ListSection(reader(dis, dis::readUTF)));
-                        break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        List<Organization> organizations = new ArrayList<>();
-                        for (int i = 0; i < dis.readInt(); i++) {
-                            List<Organization.Position> positions = new ArrayList<>();
-                            for (int k = 0; k < dis.readInt(); i++) {
-                                positions.add(new Organization.Position(LocalDate.of(dis.readInt(), dis.readInt(), 1), LocalDate.of(dis.readInt(), dis.readInt(), 1), dis.readUTF(), dis.readUTF()));
-                            }
-                            organizations.add(new Organization(new Link(dis.readUTF(), dis.readUTF()), dis.readUTF(), positions));
-                        }
-                        resume.addSection(type, new OrganizationSection(organizations));
-                        break;
-                }
-            }
+            readItems(dis, () -> resume.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readItems(dis, () -> {
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                resume.addSection(sectionType, setSection(dis, sectionType));
+            });
             return resume;
-
         }
     }
 
-    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, WriteElement<T> writeElement) throws IOException {
-        dos.write(collection.size());
-        for (T elem : collection) {
-            writeElement.write(elem);
+    private Section setSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case PERSONAL:
+            case OBJECTIVE:
+                return new TextSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                return new ListSection(reader(dis, dis::readUTF));
+            case EXPERIENCE:
+            case EDUCATION:
+                return new OrganizationSection(
+                        reader(dis, () -> new Organization(
+                                new Link(dis.readUTF(), dis.readUTF()),dis.readUTF(),
+                                reader(dis, () -> new Organization.Position(
+                                        readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF()
+                                ))
+                        )));
+            default:
+                throw new IllegalStateException();
         }
-
     }
 
-    private <T> List<T> reader(DataInputStream dis, ReadElement<T> reader) throws IOException {
+     private <T> List<T> reader(DataInputStream dis, ElementReader<T> reader) throws IOException {
         int size = dis.readInt();
         List<T> list = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -123,17 +112,34 @@ public class DataStreamSerializer implements Serializer {
         }
         return list;
     }
+
+
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T item : collection) {
+            writer.write(item);
+        }
+    }
+
+    private void readItems(DataInputStream dis, ElementProcessor processor) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            processor.process();
+        }
+    }
+
 }
 
-interface WriteElement<T> {
-    void write(T t) throws IOException;
-}
-
-interface ReadElement<T> {
-    T read() throws IOException;
-}
+    interface ElementProcessor {
+            void process() throws IOException;
+        }
 
 
+    interface ElementWriter<T> {
+        void write(T t) throws IOException;
+    }
 
-
+    interface ElementReader<T> {
+        T read() throws IOException;
+    }
 
