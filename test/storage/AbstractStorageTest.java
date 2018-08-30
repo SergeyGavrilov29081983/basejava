@@ -1,5 +1,7 @@
 package storage;
 
+
+import config.*;
 import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
 import model.*;
@@ -14,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("C:/Users/Sergey/basejava/storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
 
     protected Storage storage;
 
@@ -34,17 +36,17 @@ public abstract class AbstractStorageTest {
         R3 = new Resume(UUID_3, "Name3");
         R4 = new Resume(UUID_4, "Name4");
 
-        R1.addContact(ContactType.PHONE, "89005620780");
-        R1.addContact(ContactType.SKYPE, "sergo7777778");
-        R1.addContact(ContactType.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
-        R1.addContact(ContactType.LINKEDIN, "");
-        R1.addContact(ContactType.GITHUB, "sergo777777");
-        R1.addContact(ContactType.STACKOVERFLOW, "");
-        R1.addContact(ContactType.HOMEPAGE, "");
-        R1.addSection(SectionType.PERSONAL, new TextSection("a"));
-        R1.addSection(SectionType.OBJECTIVE, new TextSection("b"));
-        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1", "2", "3")));
-        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1", "2", "3")));
+//        R1.addContact(ContactType.PHONE, "89005620780");
+//        R1.addContact(ContactType.SKYPE, "sergo7777778");
+//        R1.addContact(ContactType.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
+//        R1.addContact(ContactType.LINKEDIN, "");
+//        R1.addContact(ContactType.GITHUB, "sergo777777");
+//        R1.addContact(ContactType.STACKOVERFLOW, "");
+//        R1.addContact(ContactType.HOMEPAGE, "");
+//        R1.addSection(SectionType.PERSONAL, new TextSection("a"));
+//        R1.addSection(SectionType.OBJECTIVE, new TextSection("b"));
+//        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1", "2", "3")));
+//        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1", "2", "3")));
 
     }
 
