@@ -1,10 +1,10 @@
 package storage;
 
 
-import config.*;
+import config.Config;
 import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
-import model.*;
+import model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -101,7 +101,7 @@ public abstract class AbstractStorageTest {
 
     @Test(expected = ExistStorageException.class)
     public void saveExist() throws Exception {
-        storage.save(R1);
+            storage.save(R1);
     }
 
     @Test(expected = NotExistStorageException.class)

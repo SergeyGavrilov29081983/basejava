@@ -1,112 +1,98 @@
 package storage;
 
 import exceptions.NotExistStorageException;
-import exceptions.StorageException;
 import model.Resume;
-import sql.ConnectionFactory;
 
-import java.sql.*;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SqlStorage implements Storage {
-    public final ConnectionFactory connectionFactory;
 
-    public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+    private final SqlHelper sqlHelper;
+
+    public SqlStorage(SqlHelper sqlHelper) {
+        this.sqlHelper = sqlHelper;
     }
 
     @Override
     public void clear() {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("DELETE FROM resume")) {
-            ps.execute();
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
+        sqlHelper.execute("DELETE FROM resume", preparedStatement -> {
+            preparedStatement.execute();
+            return null;
+        });
     }
 
     @Override
-    public Resume get(String uuid) {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume r WHERE r.uuid =?")) {
-            ps.setString(1, uuid);
-            ResultSet rs = ps.executeQuery();
+    public void save(Resume resume) throws Exception {
+        sqlHelper.execute("INSERT INTO resume (uuid, full_name) VALUES (?,?)",
+                preparedStatement -> {
+                    preparedStatement.setString(1, resume.getUuid());
+                    preparedStatement.setString(2, resume.getFullName());
+                    preparedStatement.execute();
+                    return null;
+                });
+    }
+
+    @Override
+    public void update(Resume resume) throws Exception {
+        sqlHelper.execute("UPDATE resume SET full_name=? WHERE uuid=?", preparedStatement -> {
+            preparedStatement.setString(1, resume.getFullName());
+            preparedStatement.setString(2, resume.getUuid());
+            preparedStatement.execute();
+            return null;
+        });
+    }
+
+    @Override
+    public Resume get(String uuid) throws Exception {
+        return sqlHelper.execute("SELECT * FROM resume r WHERE r.uuid =?", preparedStatement -> {
+            preparedStatement.setString(1, uuid);
+            ResultSet rs = preparedStatement.executeQuery();
             if (!rs.next()) {
                 throw new NotExistStorageException(uuid);
             }
             return new Resume(uuid, rs.getString("full_name"));
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
+        });
     }
 
     @Override
-    public void update(Resume r) {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name=? WHERE uuid=?")) {
-            ps.setString(1, r.getFullName());
-            ps.setString(2, r.getUuid());
-            ps.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void delete(String uuid) throws Exception {
+        sqlHelper.execute("DELETE  FROM resume WHERE (uuid=?)", preparedStatement -> {
+            preparedStatement.setString(1, uuid);
+            preparedStatement.executeUpdate();
+            return null;
 
+        });
+        get(uuid);
     }
-
-    @Override
-    public void save(Resume r) {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("INSERT INTO resume (uuid, full_name) VALUES (?,?)")) {
-            ps.setString(1, r.getUuid());
-            ps.setString(2, r.getFullName());
-            ps.execute();
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("DELETE  FROM resume WHERE (uuid=?)")) {
-            ps.setString(1, uuid);
-            ps.execute();
-            get(uuid);
-
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
-    }
-
 
     @Override
     public List<Resume> getAllSorted() {
         List<Resume> list = new ArrayList<>();
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT * FROM resume")) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                list.add(new Resume(rs.getString("uuid").trim(), rs.getString("full_name")));
+        return sqlHelper.execute("SELECT * FROM resume", preparedStatement -> {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                list.add(new Resume(resultSet.getString("uuid").trim(), resultSet.getString("full_name")));
             }
-        } catch (SQLException e) {
-            throw new StorageException(e.getMessage());
-        }
-        return list;
+            return list;
+        });
     }
 
     @Override
     public int size() {
-        try (Connection conn = connectionFactory.getConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT FROM resume")) {
-            int count = 0;
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                count++;
+        final int[] count = {0};
+        sqlHelper.execute("SELECT * FROM resume", preparedStatement -> {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                count[0]++;
             }
-            return count;
-        } catch (SQLException e) {
-            throw new StorageException(e);
-        }
+            return null;
+        });
+        return count[0];
     }
 }
+
+
+
+
