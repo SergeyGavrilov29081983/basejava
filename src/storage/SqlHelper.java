@@ -1,9 +1,14 @@
 package storage;
 
+import exceptions.ExistStorageException;
 import exceptions.StorageException;
+import org.postgresql.util.PSQLException;
 import sql.ConnectionFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class SqlHelper {
 
@@ -19,6 +24,11 @@ public class SqlHelper {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             return sqlHelperI.execute(ps);
         } catch (SQLException e) {
+            if(e instanceof PSQLException) {
+                if (e.getSQLState().equals("23505")) {
+                    throw new ExistStorageException("resume already exist");
+                }
+            }
             throw new StorageException(e);
         }
     }

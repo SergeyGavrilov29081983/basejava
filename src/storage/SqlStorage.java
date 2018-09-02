@@ -29,7 +29,7 @@ public class SqlStorage implements Storage {
                 preparedStatement -> {
                     preparedStatement.setString(1, resume.getUuid());
                     preparedStatement.setString(2, resume.getFullName());
-                    preparedStatement.execute();
+                    preparedStatement.executeUpdate();
                     return null;
                 });
     }
@@ -39,7 +39,9 @@ public class SqlStorage implements Storage {
         sqlHelper.execute("UPDATE resume SET full_name=? WHERE uuid=?", preparedStatement -> {
             preparedStatement.setString(1, resume.getFullName());
             preparedStatement.setString(2, resume.getUuid());
-            preparedStatement.execute();
+            if (preparedStatement.executeUpdate() == 0){
+                throw new NotExistStorageException(resume.getUuid());
+            }
             return null;
         });
     }
@@ -60,11 +62,12 @@ public class SqlStorage implements Storage {
     public void delete(String uuid) throws Exception {
         sqlHelper.execute("DELETE  FROM resume WHERE (uuid=?)", preparedStatement -> {
             preparedStatement.setString(1, uuid);
-            preparedStatement.executeUpdate();
+            if(preparedStatement.executeUpdate() == 0){
+                throw new NotExistStorageException(uuid);
+            }
             return null;
 
         });
-        get(uuid);
     }
 
     @Override
@@ -81,16 +84,16 @@ public class SqlStorage implements Storage {
 
     @Override
     public int size() {
-        final int[] count = {0};
-        sqlHelper.execute("SELECT * FROM resume", preparedStatement -> {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                count[0]++;
+        return sqlHelper.execute("SELECT count(*) FROM resume", st -> {
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
             }
-            return null;
-        });
-        return count[0];
+            else {
+                return 0;
+            }});
     }
+
 }
 
 
