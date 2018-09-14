@@ -6,9 +6,7 @@ import model.Resume;
 import sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
@@ -37,13 +35,6 @@ public class SqlStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-
-        sqlHelper.execute("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
-            preparedStatement.setString(1, resume.getUuid());
-            preparedStatement.executeUpdate();
-            return null;
-        });
-
         sqlHelper.transactionalExecute(conn -> {
             try (PreparedStatement ps = conn.prepareStatement("UPDATE resume SET full_name = ? WHERE uuid = ?")) {
                 ps.setString(1, resume.getFullName());
@@ -52,6 +43,11 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
+            sqlHelper.execute("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
+                preparedStatement.setString(1, resume.getUuid());
+                preparedStatement.executeUpdate();
+                return null;
+            });
             insertContact(conn, resume);
             return null;
         });
@@ -93,25 +89,24 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-
-        List<Resume> list = new ArrayList<>();
-        sqlHelper.execute("   SELECT * FROM resume ORDER BY uuid", preparedStatement -> {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                list.add(new Resume(resultSet.getString("uuid").trim(), resultSet.getString("full_name")));
-            }
-            return null;
-        });
-        sqlHelper.execute("SELECT * FROM contact ORDER BY resume_uuid", preparedStatement -> {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                for (Resume resume : list) {
-                    setContact(resultSet, resume);
+        return sqlHelper.execute("" +
+                "   SELECT * FROM resume r\n" +
+                "LEFT JOIN contact c ON r.uuid = c.resume_uuid\n" +
+                "ORDER BY full_name, uuid", ps -> {
+                ResultSet rs = ps.executeQuery();
+               Map<String, Resume> resumes = new LinkedHashMap<>();
+                while (rs.next()){
+                    String uuid = rs.getString("uuid");
+                    Resume resume = resumes.get(uuid);
+                    if (resume == null){
+                        resume = new Resume(uuid.trim(), rs.getString("full_name"));
+                        resumes.put(uuid, resume);
+                    }
+                    setContact(rs, resume);
                 }
-            }
-            return null;
+
+            return new ArrayList<>(resumes.values());
         });
-        return list;
     }
 
     @Override

@@ -50,7 +50,7 @@ public abstract class AbstractStorageTest {
 //        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1", "2", "3")));
 //        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1", "2", "3")));
 
-        R2.addContact(ContactType.PHONE, "89005620780");
+        R2.addContact(ContactType.PHONE, "8900562078");
         R2.addContact(ContactType.SKYPE, "sergo7777778");
         R2.addContact(ContactType.EMAIL, "sierghiei_gavrilov_1983@mail.ru");
         R2.addContact(ContactType.LINKEDIN, "");
