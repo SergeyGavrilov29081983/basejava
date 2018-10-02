@@ -1,7 +1,6 @@
 package storage;
 
 import exceptions.NotExistStorageException;
-import exceptions.StorageException;
 import model.ContactType;
 import model.Resume;
 import sql.SqlHelper;
@@ -47,7 +46,7 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(resume.getUuid());
                 }
             }
-            deleteContact(resume);
+            deleteContact(conn, resume);
             insertContact(conn, resume);
             return null;
         });
@@ -96,13 +95,9 @@ public class SqlStorage implements Storage {
             ResultSet rs = ps.executeQuery();
             Map<String, Resume> resumes = new LinkedHashMap<>();
             while (rs.next()) {
-                Resume resume = resumes.computeIfAbsent(rs.getString("uuid"), k -> {
-                    try {
-                        return new Resume(rs.getString("uuid").trim(), rs.getString("full_name"));
-                    } catch (SQLException e) {
-                        throw new StorageException(e);
-                    }
-                });
+                String uuid = rs.getString("uuid");
+                String fullName = rs.getString("full_name");
+                Resume resume = resumes.computeIfAbsent(uuid, k -> new Resume(uuid.trim(), fullName));
                 setContact(rs, resume);
             }
             return new ArrayList<>(resumes.values());
@@ -136,12 +131,12 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void deleteContact(Resume resume) {
-        sqlHelper.execute("DELETE FROM contact WHERE resume_uuid=?", preparedStatement -> {
-            preparedStatement.setString(1, resume.getUuid());
-            preparedStatement.executeUpdate();
-            return null;
-        });
+    private void deleteContact(Connection con, Resume resume) throws SQLException {
+        try(PreparedStatement ps = con.prepareStatement("DELETE FROM contact WHERE resume_uuid=?")){
+            ps.setString(1, resume.getUuid());
+            ps.execute();
+        }
+
     }
 
 }
