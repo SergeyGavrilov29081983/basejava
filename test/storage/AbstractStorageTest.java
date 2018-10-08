@@ -4,8 +4,7 @@ package storage;
 import config.Config;
 import exceptions.ExistStorageException;
 import exceptions.NotExistStorageException;
-import model.ContactType;
-import model.Resume;
+import model.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,10 +44,10 @@ public abstract class AbstractStorageTest {
         R1.addContact(ContactType.GITHUB, "sergo777777");
         R1.addContact(ContactType.STACKOVERFLOW, "5555");
         R1.addContact(ContactType.HOMEPAGE, "4444");
-//        R1.addSection(SectionType.PERSONAL, new TextSection("a"));
-//        R1.addSection(SectionType.OBJECTIVE, new TextSection("b"));
-//        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1", "2", "3")));
-//        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1", "2", "3")));
+        R1.addSection(SectionType.PERSONAL, new TextSection("a"));
+        R1.addSection(SectionType.OBJECTIVE, new TextSection("b"));
+        R1.addSection(SectionType.ACHIEVEMENT, new ListSection(Arrays.asList("1", "2", "3")));
+        R1.addSection(SectionType.QUALIFICATIONS, new ListSection(Arrays.asList("1", "2", "3")));
 
         R2.addContact(ContactType.PHONE, "8900562078");
         R2.addContact(ContactType.SKYPE, "sergo7777778");
