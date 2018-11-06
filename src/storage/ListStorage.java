@@ -9,8 +9,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     private List<Resume> storage = new ArrayList<>();
 
     @Override
-    public void clear() {
-        storage.clear();
+    public void clear() { storage.clear();
     }
 
     @Override
