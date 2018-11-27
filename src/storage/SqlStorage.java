@@ -1,13 +1,16 @@
 package storage;
 
+
 import exceptions.NotExistStorageException;
 import model.*;
 import sql.SqlHelper;
+import util.JsonParser;
 
 import java.sql.*;
 import java.util.*;
 
 public class SqlStorage implements Storage {
+
     private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
@@ -155,8 +158,8 @@ public class SqlStorage implements Storage {
             for (Map.Entry<SectionType, Section> entry : resume.getSections().entrySet()) {
                 ps.setString(1, resume.getUuid());
                 ps.setString(2, entry.getKey().name());
-                ps.setString(3, entry.getValue().toString());
-
+                Section section = entry.getValue();
+                ps.setString(3, JsonParser.write(section, Section.class));
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -174,21 +177,9 @@ public class SqlStorage implements Storage {
     private void setSection(ResultSet rs, Resume resume) throws SQLException {
         String content = rs.getString("content");
         if (content != null) {
-            SectionType type = SectionType.valueOf(rs.getString("type"));
-            switch (type) {
-                case PERSONAL:
-                case OBJECTIVE:
-                    resume.addSection(type, new TextSection(content));
-                    break;
-                case ACHIEVEMENT:
-                case QUALIFICATIONS:
-                    String result = content.replaceAll("[,\\[\\]]", "");
-                    String[] array = result.split(" ");
-                    Section section = new ListSection(Arrays.asList(array));
-                    resume.addSection(type, section);
-                    break;
-            }
+            resume.addSection(SectionType.valueOf(rs.getString("type")), JsonParser.read(content, Section.class));
         }
+
 
     }
 

@@ -20,6 +20,8 @@ public class Organization implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public static final Organization EMPTY = new Organization("", "", "", Position.EMPTY);
+
     private List<Position> positions = new ArrayList<>();
     private Link homePage;
     private String title;
@@ -47,6 +49,18 @@ public class Organization implements Serializable {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
+
+    public void setHomePage(Link homePage) {
+        this.homePage = homePage;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
@@ -77,10 +91,15 @@ public class Organization implements Serializable {
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable {
+
+        public static final Position EMPTY = new Position();
+
         private LocalDate startDate;
         private LocalDate endDate;
         private String title;
         private String description;
+
+
 
         public Position() {
         }
@@ -117,6 +136,22 @@ public class Organization implements Serializable {
 
         public String getDescription() {
             return description;
+        }
+
+        public void setStartDate(LocalDate startDate) {
+            this.startDate = startDate;
+        }
+
+        public void setEndDate(LocalDate endDate) {
+            this.endDate = endDate;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         @Override

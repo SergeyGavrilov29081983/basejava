@@ -8,13 +8,13 @@ public interface Storage {
 
     void clear();
 
-    void save(Resume resume) throws Exception;
+    void save(Resume resume);
 
-    void update(Resume resume) throws Exception;
+    void update(Resume resume);
 
-    Resume get(String uuid) throws Exception;
+    Resume get(String uuid);
 
-    void delete(String uuid) throws Exception;
+    void delete(String uuid);
 
     List<Resume> getAllSorted();
 
