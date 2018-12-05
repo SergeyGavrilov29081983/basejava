@@ -6,12 +6,14 @@
 <html>
 <head>
     <meta charset="utf-8">
-
-    <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/style.css">
     <title>База Данных Резюме</title>
 
 </head>
+
+
+
+
 <body class="page">
 <header class="header">
     <div class="container">
