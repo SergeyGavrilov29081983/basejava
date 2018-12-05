@@ -1,24 +1,83 @@
-header {
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 20px;
-    padding: 5px 20px;
+html{
+    height: 100%;
 }
 
-footer {
-    background: none repeat scroll 0 0 #A6C9E2;
-    color: #2E6E9E;
-    font-size: 20px;
-    padding: 5px 20px;
-    margin: 20px 0;
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: url("/img/background.jpg") repeat;
 }
 
-button {
-    margin-left: 100px;
+.container{
+    max-width: 1440px;
+    padding: 0 15px;
+    margin: 0 auto;
+    background-color: rgba(129, 169,255, 0.3);
 }
 
-plus {
-    padding: 50px;
-    margin: 50px;
-
+.page{
+    display: flex;
+    flex-direction: column
 }
+
+.header{
+    background-color: rgba(129, 169,255, 0.3);
+    padding: 10px 0;
+}
+
+.header-flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    width: 330px;
+}
+
+.logo img {
+    width: 140px;
+}
+
+.logo span {
+    display: block;
+}
+
+.title{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.content{
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px 0;
+    flex-grow: 1;
+    background-color: rgba(129, 169,255, 0.3);
+}
+
+.item{
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(129, 169,255, 0.3);
+}
+
+.item-link{
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.item-edit {
+    display: flex;
+    justify-content: space-around;
+}
+
+.footer{
+    padding: 25px 0;
+    background-color: rgba(129, 169,255, 0.3);
+}
+
+
+

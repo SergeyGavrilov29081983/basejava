@@ -100,6 +100,10 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume r;
         switch (action) {
+            case "list":
+                request.setAttribute("resumes", storage.getAllSorted());
+                request.getRequestDispatcher("/WEB-INF/jsp/list.jsp").forward(request, response);
+                return;
             case "delete":
                 storage.delete(uuid);
                 response.sendRedirect("resume");

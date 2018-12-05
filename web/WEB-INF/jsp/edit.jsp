@@ -1,20 +1,22 @@
+
 <%@ page import="model.ContactType" %>
 <%@ page import="model.ListSection" %>
 <%@ page import="model.OrganizationSection" %>
 <%@ page import="model.SectionType" %>
 <%@ page import="util.DateUtil" %>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="../css/style.css"/>
+    <link href="./css/style.css" rel="stylesheet">
     <jsp:useBean id="resume" type="model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
-<jsp:include page="fragments/header.jsp"/>
-<section>
+<div class="container">
     <form method="post" action="resume" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <h1>Имя:</h1>
@@ -92,7 +94,6 @@
         <button type="submit">Сохранить</button>
         <button onclick="window.history.back()">Отменить</button>
     </form>
-</section>
-<jsp:include page="fragments/footer.jsp"/>
+</div>
 </body>
 </html>

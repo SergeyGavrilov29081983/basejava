@@ -7,14 +7,13 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <jsp:useBean id="resume" type="model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
 </head>
 <body>
-<jsp:include page="fragments/header.jsp"/>
-<section>
-    <h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=edit"><img src="/img/pencil.png"></a></h2>
+<div class="container">
+<h2>${resume.fullName}&nbsp;<a href="resume?uuid=${resume.uuid}&action=list"><div class="button">Вернуться</div></a></h2>
     <p>
         <c:forEach var="contactEntry" items="${resume.contacts}">
             <jsp:useBean id="contactEntry"
@@ -86,8 +85,6 @@
             </c:choose>
         </c:forEach>
     </table>
-</section>
-
-<jsp:include page="fragments/footer.jsp"/>
+</div>
 </body>
 </html>

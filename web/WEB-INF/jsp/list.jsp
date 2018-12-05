@@ -2,36 +2,54 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="model.ContactType" %>
 
+<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Список всех резюме</title>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/style.css">
+    <title>База Данных Резюме</title>
+
 </head>
-<body>
-<jsp:include page="fragments/header.jsp"/>
-<section>
-    <a href="resume?action=add" id ="plus"><img src="img/add.png"></a>
-    <br>
-    <table border="1" cellpadding="8" cellspacing="0">
-        <tr>
-            <th>Имя</th>
-            <th>Email</th>
-        </tr>
-        <c:forEach items="${resumes}" var="resume">
+<body class="page">
+<header class="header">
+    <div class="container">
+        <div class="header-flex">
+            <div class="logo">
+                <a href="https://topjava.ru/basejava">
+                    <img src="img/logo.png">
+                    <span>
+              Практические курсы
+              программирования
+              на Java со стажировкой
+              и трудоустройством
+            </span>
+                </a>
+            </div>
+            <span class="title">Проект База Данных Резюме</span>
+            <div class="buttonAdd"><a href="resume?action=add">Добавить резюме</a></div>
+        </div>
+    </div>
+</header>
+<main class="content">
+    <div class="container">
+        <div class="item">
+            <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="model.Resume"/>
-            <tr>
-                <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactType.EMAIL.toHtml(resume.getContact(ContactType.EMAIL))%></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
-            </tr>
-        </c:forEach>
-    </table>
+                <a class="item-link" href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a>
+                <%=ContactType.EMAIL.toHtml(resume.getContact(ContactType.EMAIL))%>
 
-
-
-</section>
-<jsp:include page="fragments/footer.jsp"/>
+            <div class="item-edit">
+                <a href="resume?uuid=${resume.uuid}&action=edit"><div class="button btn-edit" >Редактировать</div></a>
+                <a href="resume?uuid=${resume.uuid}&action=delete"><div class="button delete">Удалить</div></a>
+            </div>
+            </c:forEach>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+    <div class="container">Футер</div>
+</footer>
 </body>
 </html>
